@@ -1,0 +1,66 @@
+{%- comment -%}
+  CK Email Popup — collects emails into Shopify Customers (tagged) and reveals a REAL discount code.
+  Create the code first: Discounts > Create > Amount off order. Put it in "Discount code".
+{%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- if section.settings.enabled -%}
+<div class="ck-pop" data-ck-popup data-delay="{{ section.settings.delay }}" data-exit="{{ section.settings.exit_intent }}" data-mobile="{{ section.settings.show_mobile }}" data-key="ck-popup-{{ section.settings.discount_code | handleize }}" hidden>
+  <div class="ck-pop__backdrop" data-ck-pop-close></div>
+  <div class="ck-pop__card" role="dialog" aria-modal="true" aria-labelledby="ck-pop-title-{{ section.id }}">
+    <button type="button" class="ck-pop__x" data-ck-pop-close aria-label="Close">&times;</button>
+    {%- if section.settings.image != blank -%}
+      <div class="ck-pop__img">{{ section.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: '' }}</div>
+    {%- endif -%}
+    <div class="ck-pop__body">
+      <div data-ck-pop-step="form">
+        {%- if section.settings.eyebrow != blank -%}<span class="ck-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="ck-h ck-h2" id="ck-pop-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        <p class="ck-muted">{{ section.settings.text }}</p>
+        {%- form 'customer', id: 'ck-pop-form', class: 'ck-pop__form', data-ck-pop-form: '' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,popup">
+          <label class="ck-visually-hidden" for="ck-pop-email-{{ section.id }}">Email</label>
+          <input class="ck-input" id="ck-pop-email-{{ section.id }}" type="email" name="contact[email]" placeholder="Email address" autocomplete="email" required>
+          <button type="submit" class="ck-btn ck-btn--block">{{ section.settings.button_label }}</button>
+          {%- if form.errors -%}<p class="ck-atc__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+        {%- endform -%}
+        <button type="button" class="ck-pop__no" data-ck-pop-close>{{ section.settings.decline_label }}</button>
+      </div>
+      <div data-ck-pop-step="done" hidden>
+        <span class="ck-eyebrow">{{ section.settings.success_eyebrow }}</span>
+        <h2 class="ck-h ck-h2">{{ section.settings.success_heading }}</h2>
+        <button type="button" class="ck-pop__code" data-ck-copy="{{ section.settings.discount_code | escape }}">
+          <span>{{ section.settings.discount_code }}</span><small data-ck-copy-label>Tap to copy</small>
+        </button>
+        <p class="ck-muted">{{ section.settings.success_text }}</p>
+        <a class="ck-btn ck-btn--block" href="{{ section.settings.shop_link | default: '#buy' }}" data-ck-pop-close>{{ section.settings.shop_label }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "CK Email Popup",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Show popup", "default": true },
+    { "type": "text", "id": "discount_code", "label": "Discount code (must exist in Shopify)", "default": "WELCOME10" },
+    { "type": "range", "id": "delay", "label": "Open after (seconds)", "min": 3, "max": 60, "step": 1, "default": 12 },
+    { "type": "checkbox", "id": "exit_intent", "label": "Also open when the mouse leaves the page (desktop)", "default": true },
+    { "type": "checkbox", "id": "show_mobile", "label": "Show on mobile", "default": true },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Members only" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Get <em>10% off</em> your first order" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Join the list for your code, plus care tips and early access to new drops." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Reveal my code" },
+    { "type": "text", "id": "decline_label", "label": "Decline link", "default": "No thanks, I'll pay full price" },
+    { "type": "text", "id": "success_eyebrow", "label": "Success label", "default": "You're in" },
+    { "type": "inline_richtext", "id": "success_heading", "label": "Success heading", "default": "Here's your 10% off" },
+    { "type": "text", "id": "success_text", "label": "Success text", "default": "Use it at checkout. It works on bundles too." },
+    { "type": "text", "id": "shop_label", "label": "Success button", "default": "Shop now" },
+    { "type": "url", "id": "shop_link", "label": "Success button link" }
+  ],
+  "presets": [ { "name": "CK Email Popup" } ]
+}
+{% endschema %}

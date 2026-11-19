@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, '..');
 const dir = path.join(root, 'theme', 'sections');
-const order = ['ck-brand', 'ck-announcement', 'ck-hero', 'ck-ticker', 'ck-product', 'ck-sticky-atc', 'ck-benefits', 'ck-image-text', 'ck-stats', 'ck-timeline', 'ck-comparison', 'ck-reviews', 'ck-guarantee', 'ck-faq'];
+const order = ['ck-brand', 'ck-announcement', 'ck-hero', 'ck-ticker', 'ck-product', 'ck-sticky-atc', 'ck-benefits', 'ck-image-text', 'ck-before-after', 'ck-hotspots', 'ck-stats', 'ck-timeline', 'ck-comparison', 'ck-reviews', 'ck-reels', 'ck-guarantee', 'ck-faq', 'ck-popup'];
 
 function fmt(s) {
   let t = s.type;

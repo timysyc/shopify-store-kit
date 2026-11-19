@@ -3,21 +3,54 @@
     "brand": {
       "type": "ck-brand",
       "settings": {
-        "primary": "#0e4d4a", "primary_text": "#ffffff", "button": "#c93f17", "button_text": "#ffffff",
-        "accent": "#ffc24b", "accent_text": "#3a2600", "accent_soft": "#fff1d6", "background": "#fff9f2",
-        "surface": "#fbf0e4", "card": "#ffffff", "text": "#1f2a2a", "muted": "#5b6766", "border": "#eadfd2",
-        "star": "#f5b301", "success": "#15803d", "dark": "#0b2f2d",
-        "heading_font": "poppins_n7", "body_font": "nunito_sans_n4", "radius": 20, "button_shape": "pill"
+        "primary": "#0e4d4a",
+        "primary_text": "#ffffff",
+        "button": "#c93f17",
+        "button_text": "#ffffff",
+        "accent": "#ffc24b",
+        "accent_text": "#3a2600",
+        "accent_soft": "#fff1d6",
+        "background": "#fff9f2",
+        "surface": "#fbf0e4",
+        "card": "#ffffff",
+        "text": "#1f2a2a",
+        "muted": "#5b6766",
+        "border": "#eadfd2",
+        "star": "#f5b301",
+        "success": "#15803d",
+        "dark": "#0b2f2d",
+        "heading_font": "poppins_n7",
+        "body_font": "nunito_sans_n4",
+        "radius": 20,
+        "button_shape": "pill",
+        "style_preset": "soft"
       }
     },
     "announce": {
       "type": "ck-announcement",
-      "settings": { "bg": "#0e4d4a", "color": "#ffffff" },
-      "blocks": {
-        "a1": { "type": "message", "settings": { "text": "<strong>Buy 2, get 1 FREE</strong> on every order", "link": "/products/furlo-roller" } },
-        "a2": { "type": "message", "settings": { "text": "Free US shipping over $35" } }
+      "settings": {
+        "bg": "#0e4d4a",
+        "color": "#ffffff"
       },
-      "block_order": ["a1", "a2"]
+      "blocks": {
+        "a1": {
+          "type": "message",
+          "settings": {
+            "text": "<strong>Buy 2, get 1 FREE</strong> on every order",
+            "link": "/products/furlo-roller"
+          }
+        },
+        "a2": {
+          "type": "message",
+          "settings": {
+            "text": "Free US shipping over $35"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2"
+      ]
     },
     "hero": {
       "type": "ck-hero",
@@ -31,26 +64,76 @@
         "button_link": "/products/furlo-roller",
         "trust_text": "Free US shipping over $35",
         "product": "furlo-roller",
-        "scheme": "surface"
+        "scheme": "surface",
+        "chip_1": "No refills, ever",
+        "chip_1_icon": "leaf",
+        "chip_2": "Dog & cat hair",
+        "chip_2_icon": "paw",
+        "chip_3": "60-day guarantee",
+        "chip_3_icon": "shield"
       }
     },
     "ticker": {
       "type": "ck-ticker",
-      "settings": { "scheme": "primary" },
-      "blocks": {
-        "t1": { "type": "item", "settings": { "text": "No sticky refills", "icon": "leaf" } },
-        "t2": { "type": "item", "settings": { "text": "60-day money-back guarantee", "icon": "shield" } },
-        "t3": { "type": "item", "settings": { "text": "Made for dog & cat hair", "icon": "paw" } }
+      "settings": {
+        "scheme": "primary"
       },
-      "block_order": ["t1", "t2", "t3"]
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "text": "No sticky refills",
+            "icon": "leaf"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "text": "60-day money-back guarantee",
+            "icon": "shield"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "text": "Made for dog & cat hair",
+            "icon": "paw"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ]
     },
     "product": {
       "type": "ck-product",
-      "settings": { "product": "furlo-roller", "gallery_badge": "Reusable · no refills", "gallery_badge_icon": "leaf", "padding_top": 64 },
+      "settings": {
+        "product": "furlo-roller",
+        "gallery_badge": "Reusable · no refills",
+        "gallery_badge_icon": "leaf",
+        "padding_top": 64
+      },
       "blocks": {
-        "rating": { "type": "rating", "settings": { "count_text": "" } },
-        "title": { "type": "title", "settings": { "title": "Furlo Pet Hair Roller" } },
-        "hook": { "type": "subtitle", "settings": { "text": "<strong>Lifts pet hair off couches, beds and car seats</strong> in a few passes." } },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "count_text": ""
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "title": "Furlo Pet Hair Roller"
+          }
+        },
+        "hook": {
+          "type": "subtitle",
+          "settings": {
+            "text": "<strong>Lifts pet hair off couches, beds and car seats</strong> in a few passes."
+          }
+        },
         "tiers": {
           "type": "bundles",
           "settings": {
@@ -60,56 +143,302 @@
             "tier3_gift": "Free Furlo Mini travel roller"
           }
         },
-        "buy": { "type": "buy_buttons", "settings": { "subtext": "60-day money-back guarantee" } },
-        "badges": { "type": "guarantees", "settings": { "items": "truck|Free shipping|Orders over $35\nreturn|60-day trial|Love it or refund\nchat|Real humans|Reply within 24h" } }
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "subtext": "60-day money-back guarantee",
+            "shimmer": true
+          }
+        },
+        "badges": {
+          "type": "guarantees",
+          "settings": {
+            "items": "truck|Free shipping|Orders over $35\nreturn|60-day trial|Love it or refund\nchat|Real humans|Reply within 24h"
+          }
+        }
       },
-      "block_order": ["rating", "title", "hook", "tiers", "buy", "badges"]
+      "block_order": [
+        "rating",
+        "title",
+        "hook",
+        "tiers",
+        "buy",
+        "badges"
+      ]
     },
     "why": {
       "type": "ck-benefits",
-      "settings": { "layout": "grid", "columns": "3", "heading": "Why pet parents <em>switch</em>", "scheme": "surface" },
-      "blocks": {
-        "b1": { "type": "benefit", "settings": { "icon": "paw", "title": "Gets the fur rollers miss", "text": "<p>Angled bristles grip fur deep in the weave.</p>" } },
-        "b2": { "type": "benefit", "settings": { "icon": "leaf", "title": "Zero waste, zero refills", "text": "<p>Empty the chamber and go again. Nothing to throw away.</p>" } },
-        "b3": { "type": "benefit", "settings": { "icon": "heart", "title": "Gentle on your stuff", "text": "<p>No suction, heat or blades. Safe on sofas, duvets and car seats.</p>" } }
+      "settings": {
+        "layout": "grid",
+        "columns": "3",
+        "heading": "Why pet parents <em>switch</em>",
+        "scheme": "surface"
       },
-      "block_order": ["b1", "b2", "b3"]
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "paw",
+            "title": "Gets the fur rollers miss",
+            "text": "<p>Angled bristles grip fur deep in the weave.</p>"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "title": "Zero waste, zero refills",
+            "text": "<p>Empty the chamber and go again. Nothing to throw away.</p>"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "Gentle on your stuff",
+            "text": "<p>No suction, heat or blades. Safe on sofas, duvets and car seats.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
     },
     "reviews": {
       "type": "ck-reviews",
-      "settings": { "heading": "Pet parents are <em>talking</em>", "product": "furlo-roller", "count_text": "", "layout": "carousel", "scheme": "accent" },
-      "blocks": {
-        "rv1": { "type": "review", "settings": { "title": "My couch is grey again", "text": "[EXAMPLE] Collect a review that names the pet, the furniture and the before/after.", "name": "Example customer", "verified": false, "is_placeholder": true } },
-        "rv2": { "type": "review", "settings": { "title": "Better than lint rollers", "text": "[EXAMPLE] Collect a review comparing Furlo to sticky rollers.", "name": "Example customer", "verified": false, "is_placeholder": true } },
-        "rv3": { "type": "review", "settings": { "title": "The car seats", "text": "[EXAMPLE] Collect a review about the car, ideally with a photo.", "name": "Example customer", "verified": false, "is_placeholder": true } },
-        "rv4": { "type": "review", "settings": { "title": "Bought the 3-pack", "text": "[EXAMPLE] Collect a review from a bundle buyer.", "name": "Example customer", "verified": false, "is_placeholder": true } }
+      "settings": {
+        "heading": "Pet parents are <em>talking</em>",
+        "product": "furlo-roller",
+        "count_text": "",
+        "layout": "carousel",
+        "scheme": "accent"
       },
-      "block_order": ["rv1", "rv2", "rv3", "rv4"]
+      "blocks": {
+        "rv1": {
+          "type": "review",
+          "settings": {
+            "title": "My couch is grey again",
+            "text": "[EXAMPLE] Collect a review that names the pet, the furniture and the before/after.",
+            "name": "Example customer",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv2": {
+          "type": "review",
+          "settings": {
+            "title": "Better than lint rollers",
+            "text": "[EXAMPLE] Collect a review comparing Furlo to sticky rollers.",
+            "name": "Example customer",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv3": {
+          "type": "review",
+          "settings": {
+            "title": "The car seats",
+            "text": "[EXAMPLE] Collect a review about the car, ideally with a photo.",
+            "name": "Example customer",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv4": {
+          "type": "review",
+          "settings": {
+            "title": "Bought the 3-pack",
+            "text": "[EXAMPLE] Collect a review from a bundle buyer.",
+            "name": "Example customer",
+            "verified": false,
+            "is_placeholder": true
+          }
+        }
+      },
+      "block_order": [
+        "rv1",
+        "rv2",
+        "rv3",
+        "rv4"
+      ]
     },
     "versus": {
       "type": "ck-comparison",
-      "settings": { "heading": "Furlo vs. <em>the usual fix</em>", "us_label": "Furlo", "them_label": "Sticky rollers", "scheme": "default" },
-      "blocks": {
-        "r1": { "type": "row", "settings": { "feature": "Reusable, nothing to throw away" } },
-        "r2": { "type": "row", "settings": { "feature": "Pulls fur out of the weave", "them_text": "Surface only" } },
-        "r3": { "type": "row", "settings": { "feature": "Ongoing cost", "us_text": "None", "them_text": "Refills, forever" } }
+      "settings": {
+        "heading": "Furlo vs. <em>the usual fix</em>",
+        "us_label": "Furlo",
+        "them_label": "Sticky rollers",
+        "scheme": "default"
       },
-      "block_order": ["r1", "r2", "r3"]
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "feature": "Reusable, nothing to throw away"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "feature": "Pulls fur out of the weave",
+            "them_text": "Surface only"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "feature": "Ongoing cost",
+            "us_text": "None",
+            "them_text": "Refills, forever"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ]
     },
     "guarantee": {
       "type": "ck-guarantee",
-      "settings": { "days": "60", "heading": "Love it or <em>it's free</em>", "text": "<p>Use Furlo for 60 days. If it doesn't beat your lint roller, we refund every cent.</p>", "button_label": "Shop Furlo", "button_link": "/products/furlo-roller", "scheme": "surface" }
+      "settings": {
+        "days": "60",
+        "heading": "Love it or <em>it's free</em>",
+        "text": "<p>Use Furlo for 60 days. If it doesn't beat your lint roller, we refund every cent.</p>",
+        "button_label": "Shop Furlo",
+        "button_link": "/products/furlo-roller",
+        "scheme": "surface"
+      }
     },
     "faq": {
       "type": "ck-faq",
-      "settings": { "heading": "Questions? <em>Answered.</em>", "scheme": "default" },
-      "blocks": {
-        "q1": { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>Orders leave our US warehouse in 1–2 business days and usually arrive in 5–9 business days.</p>" } },
-        "q2": { "type": "question", "settings": { "question": "Will it damage my couch?", "answer": "<p>No. No suction, heat or blade. Safe on fabric sofas, beds, rugs and car seats.</p>" } },
-        "q3": { "type": "question", "settings": { "question": "What if it doesn't work for me?", "answer": "<p>Email us within 60 days of delivery for a full refund.</p>" } }
+      "settings": {
+        "heading": "Questions? <em>Answered.</em>",
+        "scheme": "default"
       },
-      "block_order": ["q1", "q2", "q3"]
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders leave our US warehouse in 1–2 business days and usually arrive in 5–9 business days.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Will it damage my couch?",
+            "answer": "<p>No. No suction, heat or blade. Safe on fabric sofas, beds, rugs and car seats.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "What if it doesn't work for me?",
+            "answer": "<p>Email us within 60 days of delivery for a full refund.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    "photos": {
+      "type": "ck-ticker",
+      "settings": {
+        "style": "photos",
+        "label": "Furlo at home",
+        "speed": 50,
+        "scheme": "default",
+        "padding_top": 40,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "p1": {
+          "type": "item",
+          "settings": {
+            "text": "Furlo in use",
+            "icon": "none"
+          }
+        },
+        "p2": {
+          "type": "item",
+          "settings": {
+            "text": "Furlo in use",
+            "icon": "none"
+          }
+        },
+        "p3": {
+          "type": "item",
+          "settings": {
+            "text": "Furlo in use",
+            "icon": "none"
+          }
+        },
+        "p4": {
+          "type": "item",
+          "settings": {
+            "text": "Furlo in use",
+            "icon": "none"
+          }
+        },
+        "p5": {
+          "type": "item",
+          "settings": {
+            "text": "Furlo in use",
+            "icon": "none"
+          }
+        },
+        "p6": {
+          "type": "item",
+          "settings": {
+            "text": "Furlo in use",
+            "icon": "none"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ]
+    },
+    "popup": {
+      "type": "ck-popup",
+      "settings": {
+        "discount_code": "FURLO10",
+        "delay": 15,
+        "eyebrow": "Pet parents club",
+        "heading": "Get <em>10% off</em> your first Furlo",
+        "text": "Join for your code, plus fur-fighting tips for every season of shedding.",
+        "button_label": "Reveal my code",
+        "decline_label": "No thanks, I like fur",
+        "success_heading": "Here's your 10% off",
+        "success_text": "Use it at checkout. It stacks with Buy 2, Get 1 Free.",
+        "shop_label": "Shop Furlo",
+        "shop_link": "#buy"
+      }
     }
   },
-  "order": ["brand", "announce", "hero", "ticker", "product", "why", "reviews", "versus", "guarantee", "faq"]
+  "order": [
+    "brand",
+    "announce",
+    "hero",
+    "ticker",
+    "product",
+    "why",
+    "photos",
+    "reviews",
+    "versus",
+    "guarantee",
+    "faq",
+    "popup"
+  ]
 }

@@ -1,0 +1,74 @@
+{%- comment -%}
+  CK Video Reels — TikTok/Reels-style vertical UGC videos. Upload videos in Shopify (Content > Files).
+  Only use videos you own or have written permission to use.
+{%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- assign list_id = 'ck-reels-' | append: section.id -%}
+<section class="ck ck--{{ section.settings.scheme }} ck-reels-sec" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    {% render 'ck-head', s: section.settings %}
+    <div id="{{ list_id }}" class="ck-reels" data-ck-reels data-autoplay="{{ section.settings.autoplay }}">
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        <figure class="ck-reel ck-reveal" {{ block.shopify_attributes }} data-ck-reel>
+          {%- if b.video != blank -%}
+            {{ b.video | video_tag: muted: true, loop: true, playsinline: true, preload: 'none', controls: false, image_size: '540x', class: 'ck-reel__media' }}
+          {%- elsif b.poster != blank -%}
+            {{ b.poster | image_url: width: 540 | image_tag: loading: 'lazy', class: 'ck-reel__media', alt: b.caption }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'ck-reel__media' }}
+          {%- endif -%}
+          <span class="ck-reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          {%- if b.is_placeholder -%}<span class="ck-review__tag ck-reel__tag">Placeholder video</span>{%- endif -%}
+          <figcaption class="ck-reel__cap">
+            {%- if b.rating > 0 -%}{% render 'ck-stars', rating: b.rating, size: 13 %}{%- endif -%}
+            {%- if b.caption != blank -%}<span class="ck-reel__quote">{{ b.caption }}</span>{%- endif -%}
+            {%- if b.name != blank -%}<span class="ck-reel__name">{{ b.name }}</span>{%- endif -%}
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+    <div class="ck-scroller-nav" data-ck-scroller-nav="{{ list_id }}">
+      <button type="button" data-dir="prev" aria-label="Previous videos">&#8249;</button>
+      <button type="button" data-dir="next" aria-label="Next videos">&#8250;</button>
+    </div>
+    {%- if section.settings.handle_text != blank -%}
+      <p class="ck-footnote">{% if section.settings.handle_link != blank %}<a href="{{ section.settings.handle_link }}">{{ section.settings.handle_text }}</a>{% else %}{{ section.settings.handle_text }}{% endif %}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Video Reels",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Seen on social" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Real people, <em>real results</em>" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay muted when on screen", "default": true },
+    { "type": "text", "id": "handle_text", "label": "Text under videos", "default": "Tag us to be featured" },
+    { "type": "url", "id": "handle_link", "label": "Link (e.g. your TikTok)" },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "dark", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "reel", "name": "Video",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video (vertical 9:16)" },
+        { "type": "image_picker", "id": "poster", "label": "Cover image (if no video yet)" },
+        { "type": "text", "id": "caption", "label": "Caption / quote" },
+        { "type": "text", "id": "name", "label": "Name or @handle" },
+        { "type": "range", "id": "rating", "label": "Stars (0 = hide)", "min": 0, "max": 5, "step": 1, "default": 5 },
+        { "type": "checkbox", "id": "is_placeholder", "label": "Mark as placeholder", "default": false }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Video Reels", "blocks": [ { "type": "reel" }, { "type": "reel" }, { "type": "reel" }, { "type": "reel" } ] } ]
+}
+{% endschema %}

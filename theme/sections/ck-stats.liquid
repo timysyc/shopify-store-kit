@@ -7,10 +7,18 @@
       {%- if section.settings.image != blank -%}
         <div class="ck-stats-row__media ck-reveal">{{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '500, 800, 1200' }}</div>
       {%- endif -%}
-      <div class="ck-stats">
+      <div class="ck-stats ck-stats--{{ section.settings.layout }}">
         {%- for block in section.blocks -%}
           <div class="ck-stat ck-reveal" {{ block.shopify_attributes }}>
+            {%- if section.settings.layout == 'rings' -%}
+              {%- assign ring = block.settings.value | times: 1 -%}{%- if ring > 100 -%}{%- assign ring = 100 -%}{%- endif -%}
+              <div class="ck-ring" style="--v: {{ ring }};">
+                <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ck-ring__track" cx="60" cy="60" r="52"/><circle class="ck-ring__bar" cx="60" cy="60" r="52" pathLength="100"/></svg>
+                <div class="ck-ring__num">{{ block.settings.prefix }}<span data-ck-count data-to="{{ block.settings.value }}">{{ block.settings.value }}</span>{{ block.settings.suffix }}</div>
+              </div>
+            {%- else -%}
             <div class="ck-stat__num">{{ block.settings.prefix }}<span data-ck-count data-to="{{ block.settings.value }}">{{ block.settings.value }}</span>{{ block.settings.suffix }}</div>
+            {%- endif -%}
             <div class="ck-stat__label">{{ block.settings.label }}</div>
           </div>
         {%- endfor -%}
@@ -27,6 +35,7 @@
     { "type": "text", "id": "eyebrow", "label": "Small label" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "The numbers <em>speak</em>" },
     { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "cards", "options": [ { "value": "cards", "label": "Big numbers" }, { "value": "rings", "label": "Percentage rings" } ] },
     { "type": "image_picker", "id": "image", "label": "Image (optional)" },
     { "type": "text", "id": "footnote", "label": "Source / footnote", "info": "Say where each number comes from, e.g. 'Survey of 214 customers, Oct 2026'." },
     { "type": "header", "content": "Section style" },

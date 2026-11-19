@@ -70,9 +70,11 @@ All figures are before payment fees (about 2.9% + 30¢). Free shipping threshold
 4. Free gift: tell the supplier to pack one Mini with every 5-unit order. Or use a free-gift app. Do not promise it until one of these is set up.
 5. Shipping: Settings → Shipping → free shipping rate for orders over $35.
 
-## G. Cart bar
+## G. Cart bar + popup
 
-In `snippets/ck-cart-progress.liquid`: `ck_threshold = 3500` and `ck_reward = 'FREE shipping'`.
+In `snippets/ck-cart-progress.liquid`: `m1 = 3500` / `'Free shipping'`, `m2 = 6000` / `'Free gift'` (only once the Mini free-gift discount exists). Popup code: create **FURLO10** (10% off, one use per customer) before launch.
+
+The before/after slider, hotspot image and video reels use illustrations and placeholders in the sample. Swap in a real unedited photo pair and real creator clips before running ads.
 
 ## H. Images
 

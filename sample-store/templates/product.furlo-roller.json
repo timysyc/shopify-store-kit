@@ -24,18 +24,42 @@
         "body_font": "nunito_sans_n4",
         "radius": 20,
         "button_shape": "pill",
-        "uppercase_buttons": true
+        "uppercase_buttons": true,
+        "style_preset": "soft"
       }
     },
     "announce": {
       "type": "ck-announcement",
-      "settings": { "bg": "#0e4d4a", "color": "#ffffff", "speed": 4 },
-      "blocks": {
-        "a1": { "type": "message", "settings": { "text": "<strong>Buy 2, get 1 FREE</strong> on every order" } },
-        "a2": { "type": "message", "settings": { "text": "Free US shipping over $35" } },
-        "a3": { "type": "message", "settings": { "text": "60-day money-back guarantee" } }
+      "settings": {
+        "bg": "#0e4d4a",
+        "color": "#ffffff",
+        "speed": 4
       },
-      "block_order": ["a1", "a2", "a3"]
+      "blocks": {
+        "a1": {
+          "type": "message",
+          "settings": {
+            "text": "<strong>Buy 2, get 1 FREE</strong> on every order"
+          }
+        },
+        "a2": {
+          "type": "message",
+          "settings": {
+            "text": "Free US shipping over $35"
+          }
+        },
+        "a3": {
+          "type": "message",
+          "settings": {
+            "text": "60-day money-back guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ]
     },
     "main": {
       "type": "ck-product",
@@ -45,9 +69,25 @@
         "after_add": "drawer"
       },
       "blocks": {
-        "rating": { "type": "rating", "settings": { "count_text": "", "label": "Rated" } },
-        "title": { "type": "title", "settings": { "title": "Furlo Pet Hair Roller" } },
-        "hook": { "type": "subtitle", "settings": { "text": "<strong>Lifts pet hair off couches, beds and car seats</strong> in a few passes. No sticky sheets, ever." } },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "count_text": "",
+            "label": "Rated"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "title": "Furlo Pet Hair Roller"
+          }
+        },
+        "hook": {
+          "type": "subtitle",
+          "settings": {
+            "text": "<strong>Lifts pet hair off couches, beds and car seats</strong> in a few passes. No sticky sheets, ever."
+          }
+        },
         "bullets": {
           "type": "benefits",
           "settings": {
@@ -80,16 +120,34 @@
             "tier3_perks": "Free US shipping\nFree Furlo Mini in the box"
           }
         },
-        "delivery": { "type": "delivery", "settings": { "min_days": 5, "max_days": 9 } },
+        "delivery": {
+          "type": "delivery",
+          "settings": {
+            "min_days": 5,
+            "max_days": 9
+          }
+        },
         "buy": {
           "type": "buy_buttons",
-          "settings": { "label": "Add to cart", "subtext": "60-day money-back guarantee", "sub_icon": "shield" }
+          "settings": {
+            "label": "Add to cart",
+            "subtext": "60-day money-back guarantee",
+            "sub_icon": "shield",
+            "shimmer": true
+          }
         },
         "badges": {
           "type": "guarantees",
-          "settings": { "items": "truck|Free shipping|Orders over $35\nreturn|60-day trial|Love it or refund\nchat|Real humans|Reply within 24h" }
+          "settings": {
+            "items": "truck|Free shipping|Orders over $35\nreturn|60-day trial|Love it or refund\nchat|Real humans|Reply within 24h"
+          }
         },
-        "pay": { "type": "payment_icons", "settings": { "label": "Secure, encrypted checkout" } },
+        "pay": {
+          "type": "payment_icons",
+          "settings": {
+            "label": "Secure, encrypted checkout"
+          }
+        },
         "quote": {
           "type": "review",
           "settings": {
@@ -100,7 +158,15 @@
             "is_placeholder": true
           }
         },
-        "acc_desc": { "type": "accordion", "settings": { "title": "What it does", "icon": "box", "use_description": true, "first": true } },
+        "acc_desc": {
+          "type": "accordion",
+          "settings": {
+            "title": "What it does",
+            "icon": "box",
+            "use_description": true,
+            "first": true
+          }
+        },
         "acc_how": {
           "type": "accordion",
           "settings": {
@@ -125,21 +191,80 @@
             "label": "Furlo Mini travel roller",
             "subtext": "Glovebox size, same sealed chamber"
           }
+        },
+        "payin4": {
+          "type": "installments",
+          "settings": {}
         }
       },
-      "block_order": ["rating", "title", "hook", "bullets", "tiers", "delivery", "buy", "badges", "pay", "quote", "acc_desc", "acc_how", "acc_ship", "addon"]
+      "block_order": [
+        "rating",
+        "title",
+        "hook",
+        "bullets",
+        "tiers",
+        "delivery",
+        "buy",
+        "payin4",
+        "badges",
+        "pay",
+        "quote",
+        "acc_desc",
+        "acc_how",
+        "acc_ship",
+        "addon"
+      ]
     },
     "ticker": {
       "type": "ck-ticker",
-      "settings": { "scheme": "primary", "speed": 34 },
-      "blocks": {
-        "t1": { "type": "item", "settings": { "text": "No sticky refills", "icon": "leaf" } },
-        "t2": { "type": "item", "settings": { "text": "Couches, beds & car seats", "icon": "check" } },
-        "t3": { "type": "item", "settings": { "text": "60-day money-back guarantee", "icon": "shield" } },
-        "t4": { "type": "item", "settings": { "text": "Free US shipping over $35", "icon": "truck" } },
-        "t5": { "type": "item", "settings": { "text": "Made for dog & cat hair", "icon": "paw" } }
+      "settings": {
+        "scheme": "primary",
+        "speed": 34
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5"]
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "text": "No sticky refills",
+            "icon": "leaf"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "text": "Couches, beds & car seats",
+            "icon": "check"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "text": "60-day money-back guarantee",
+            "icon": "shield"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "text": "Free US shipping over $35",
+            "icon": "truck"
+          }
+        },
+        "t5": {
+          "type": "item",
+          "settings": {
+            "text": "Made for dog & cat hair",
+            "icon": "paw"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ]
     },
     "why": {
       "type": "ck-benefits",
@@ -152,12 +277,45 @@
         "scheme": "default"
       },
       "blocks": {
-        "b1": { "type": "benefit", "settings": { "icon": "paw", "title": "Gets the fur rollers miss", "text": "<p>Hundreds of angled bristles grip fur deep in the weave, not just the hair sitting on top.</p>" } },
-        "b2": { "type": "benefit", "settings": { "icon": "leaf", "title": "Zero waste, zero refills", "text": "<p>No sticky sheets to buy or throw away. Empty the chamber and go again.</p>" } },
-        "b3": { "type": "benefit", "settings": { "icon": "bolt", "title": "Fast enough for every day", "text": "<p>Keep it by the couch. A few passes before guests arrive and you're done.</p>" } },
-        "b4": { "type": "benefit", "settings": { "icon": "heart", "title": "Gentle on your stuff", "text": "<p>No suction, heat or blades. Safe on sofas, duvets, cat trees and car seats.</p>" } }
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "paw",
+            "title": "Gets the fur rollers miss",
+            "text": "<p>Hundreds of angled bristles grip fur deep in the weave, not just the hair sitting on top.</p>"
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "title": "Zero waste, zero refills",
+            "text": "<p>No sticky sheets to buy or throw away. Empty the chamber and go again.</p>"
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "bolt",
+            "title": "Fast enough for every day",
+            "text": "<p>Keep it by the couch. A few passes before guests arrive and you're done.</p>"
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "Gentle on your stuff",
+            "text": "<p>No suction, heat or blades. Safe on sofas, duvets, cat trees and car seats.</p>"
+          }
+        }
       },
-      "block_order": ["b1", "b2", "b3", "b4"]
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
     },
     "problem": {
       "type": "ck-image-text",
@@ -180,11 +338,39 @@
         "scheme": "default"
       },
       "blocks": {
-        "s1": { "type": "step", "settings": { "icon": "sparkles", "label": "Minute 1", "title": "The first pass", "text": "<p>Roll it across one cushion, then open the lid and look. Seeing how much comes out is the fun part.</p>" } },
-        "s2": { "type": "step", "settings": { "icon": "heart", "label": "Day 1", "title": "The whole couch", "text": "<p>A full sofa takes a few minutes. Then the car seats and the dog bed.</p>" } },
-        "s3": { "type": "step", "settings": { "icon": "smile", "label": "Day 7", "title": "A new habit", "text": "<p>It lives next to the couch now. Quick passes stop fur from building up again.</p>" } }
+        "s1": {
+          "type": "step",
+          "settings": {
+            "icon": "sparkles",
+            "label": "Minute 1",
+            "title": "The first pass",
+            "text": "<p>Roll it across one cushion, then open the lid and look. Seeing how much comes out is the fun part.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "icon": "heart",
+            "label": "Day 1",
+            "title": "The whole couch",
+            "text": "<p>A full sofa takes a few minutes. Then the car seats and the dog bed.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "icon": "smile",
+            "label": "Day 7",
+            "title": "A new habit",
+            "text": "<p>It lives next to the couch now. Quick passes stop fur from building up again.</p>"
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3"]
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ]
     },
     "versus": {
       "type": "ck-comparison",
@@ -195,13 +381,54 @@
         "scheme": "surface"
       },
       "blocks": {
-        "r1": { "type": "row", "settings": { "feature": "Reusable, nothing to throw away", "us_text": "yes", "them_text": "no" } },
-        "r2": { "type": "row", "settings": { "feature": "Pulls fur out of the weave", "us_text": "yes", "them_text": "Surface only" } },
-        "r3": { "type": "row", "settings": { "feature": "Big areas in one go", "us_text": "yes", "them_text": "Sheet after sheet" } },
-        "r4": { "type": "row", "settings": { "feature": "Ongoing cost", "us_text": "None", "them_text": "Refills, forever" } },
-        "r5": { "type": "row", "settings": { "feature": "60-day money-back guarantee", "us_text": "yes", "them_text": "no" } }
+        "r1": {
+          "type": "row",
+          "settings": {
+            "feature": "Reusable, nothing to throw away",
+            "us_text": "yes",
+            "them_text": "no"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "feature": "Pulls fur out of the weave",
+            "us_text": "yes",
+            "them_text": "Surface only"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "feature": "Big areas in one go",
+            "us_text": "yes",
+            "them_text": "Sheet after sheet"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "feature": "Ongoing cost",
+            "us_text": "None",
+            "them_text": "Refills, forever"
+          }
+        },
+        "r5": {
+          "type": "row",
+          "settings": {
+            "feature": "60-day money-back guarantee",
+            "us_text": "yes",
+            "them_text": "no"
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5"]
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ]
     },
     "reviews": {
       "type": "ck-reviews",
@@ -213,14 +440,87 @@
         "scheme": "accent"
       },
       "blocks": {
-        "rv1": { "type": "review", "settings": { "rating": 5, "title": "My couch is grey again", "text": "[EXAMPLE] Collect a review that names the pet, the furniture and the before/after.", "name": "Example customer", "meta": "2 huskies · fabric sofa", "verified": false, "is_placeholder": true } },
-        "rv2": { "type": "review", "settings": { "rating": 5, "title": "Better than 10 lint rollers", "text": "[EXAMPLE] Collect a review comparing Furlo to the sticky rollers they used before.", "name": "Example customer", "meta": "Cat owner", "verified": false, "is_placeholder": true } },
-        "rv3": { "type": "review", "settings": { "rating": 5, "title": "The car seats", "text": "[EXAMPLE] Collect a review about the car, ideally with a photo of the full chamber.", "name": "Example customer", "meta": "Golden retriever", "verified": false, "is_placeholder": true } },
-        "rv4": { "type": "review", "settings": { "rating": 5, "title": "Bought the 3-pack", "text": "[EXAMPLE] Collect a review from a bundle buyer saying where each roller lives.", "name": "Example customer", "meta": "Bought: Buy 2, Get 1 Free", "verified": false, "is_placeholder": true } },
-        "rv5": { "type": "review", "settings": { "rating": 4, "title": "Works, takes practice", "text": "[EXAMPLE] A real 4-star review with a small gripe makes the wall more believable. Keep one.", "name": "Example customer", "meta": "Short-haired dog", "verified": false, "is_placeholder": true } },
-        "rv6": { "type": "review", "settings": { "rating": 5, "title": "Gift for my sister", "text": "[EXAMPLE] Collect a review from someone who bought it as a gift.", "name": "Example customer", "meta": "Bought: Buy 3, Get 2 Free", "verified": false, "is_placeholder": true } }
+        "rv1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "My couch is grey again",
+            "text": "[EXAMPLE] Collect a review that names the pet, the furniture and the before/after.",
+            "name": "Example customer",
+            "meta": "2 huskies · fabric sofa",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Better than 10 lint rollers",
+            "text": "[EXAMPLE] Collect a review comparing Furlo to the sticky rollers they used before.",
+            "name": "Example customer",
+            "meta": "Cat owner",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "The car seats",
+            "text": "[EXAMPLE] Collect a review about the car, ideally with a photo of the full chamber.",
+            "name": "Example customer",
+            "meta": "Golden retriever",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Bought the 3-pack",
+            "text": "[EXAMPLE] Collect a review from a bundle buyer saying where each roller lives.",
+            "name": "Example customer",
+            "meta": "Bought: Buy 2, Get 1 Free",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv5": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "title": "Works, takes practice",
+            "text": "[EXAMPLE] A real 4-star review with a small gripe makes the wall more believable. Keep one.",
+            "name": "Example customer",
+            "meta": "Short-haired dog",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "rv6": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Gift for my sister",
+            "text": "[EXAMPLE] Collect a review from someone who bought it as a gift.",
+            "name": "Example customer",
+            "meta": "Bought: Buy 3, Get 2 Free",
+            "verified": false,
+            "is_placeholder": true
+          }
+        }
       },
-      "block_order": ["rv1", "rv2", "rv3", "rv4", "rv5", "rv6"]
+      "block_order": [
+        "rv1",
+        "rv2",
+        "rv3",
+        "rv4",
+        "rv5",
+        "rv6"
+      ]
     },
     "guarantee": {
       "type": "ck-guarantee",
@@ -243,19 +543,215 @@
         "scheme": "surface"
       },
       "blocks": {
-        "q1": { "type": "question", "settings": { "question": "Does it work on cat hair and short dog hair?", "answer": "<p>Yes. The angled bristles grab long, short and fine fur. Short, stiff hair takes a few more passes in both directions.</p>" } },
-        "q2": { "type": "question", "settings": { "question": "Will it damage my couch?", "answer": "<p>No. There is no suction, heat or blade. It's safe on fabric sofas, beds, rugs and car seats. Skip leather and silk.</p>" } },
-        "q3": { "type": "question", "settings": { "question": "How do I clean it?", "answer": "<p>Open the lid and tip the fur into the bin. Rinse the bristle head under the tap when it needs a refresh and let it dry.</p>" } },
-        "q4": { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>Orders leave our US warehouse in 1–2 business days and usually arrive in 5–9 business days. You get tracking by email.</p>" } },
-        "q5": { "type": "question", "settings": { "question": "What if it doesn't work for me?", "answer": "<p>Email us within 60 days of delivery and we refund you in full. No forms, no hassle.</p>" } },
-        "q6": { "type": "question", "settings": { "question": "Does it work on clothes?", "answer": "<p>It works on most fabrics, but it's built for furniture-sized areas. For clothes, lay them flat and use short strokes.</p>" } }
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Does it work on cat hair and short dog hair?",
+            "answer": "<p>Yes. The angled bristles grab long, short and fine fur. Short, stiff hair takes a few more passes in both directions.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Will it damage my couch?",
+            "answer": "<p>No. There is no suction, heat or blade. It's safe on fabric sofas, beds, rugs and car seats. Skip leather and silk.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How do I clean it?",
+            "answer": "<p>Open the lid and tip the fur into the bin. Rinse the bristle head under the tap when it needs a refresh and let it dry.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders leave our US warehouse in 1–2 business days and usually arrive in 5–9 business days. You get tracking by email.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "What if it doesn't work for me?",
+            "answer": "<p>Email us within 60 days of delivery and we refund you in full. No forms, no hassle.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "Does it work on clothes?",
+            "answer": "<p>It works on most fabrics, but it's built for furniture-sized areas. For clothes, lay them flat and use short strokes.</p>"
+          }
+        }
       },
-      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"]
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ]
     },
     "sticky": {
       "type": "ck-sticky-atc",
-      "settings": { "label": "Add to cart", "action": "add" }
+      "settings": {
+        "label": "Add to cart",
+        "action": "add"
+      }
+    },
+    "beforeafter": {
+      "type": "ck-before-after",
+      "settings": {
+        "before_label": "Before",
+        "after_label": "After 3 passes",
+        "start": 55,
+        "text_side": "right",
+        "eyebrow": "One couch, two minutes",
+        "heading": "Drag to see the <em>difference</em>",
+        "text": "<p>Same cushion, same light. Left side before, right side after three passes with Furlo.</p>",
+        "checks": "No sticky sheets used\nNo vacuum used\nFur sealed in the chamber, not on the floor",
+        "button_label": "Get the same result",
+        "button_link": "#buy",
+        "footnote": "Illustration for the sample store. Replace with a real, unedited customer photo pair.",
+        "scheme": "default"
+      }
+    },
+    "anatomy": {
+      "type": "ck-hotspots",
+      "settings": {
+        "eyebrow": "Inside Furlo",
+        "heading": "Small roller, <em>clever parts</em>",
+        "scheme": "surface"
+      },
+      "blocks": {
+        "h1": {
+          "type": "spot",
+          "settings": {
+            "x": 34,
+            "y": 34,
+            "title": "Angled ratchet bristles",
+            "text": "Comb fur up and out of the weave in both directions."
+          }
+        },
+        "h2": {
+          "type": "spot",
+          "settings": {
+            "x": 66,
+            "y": 30,
+            "title": "Sealed fur chamber",
+            "text": "Traps everything you lift. Pop the lid to empty."
+          }
+        },
+        "h3": {
+          "type": "spot",
+          "settings": {
+            "x": 54,
+            "y": 74,
+            "title": "Soft-grip handle",
+            "text": "Comfortable for a whole couch, not just one cushion."
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3"
+      ]
+    },
+    "reels": {
+      "type": "ck-reels",
+      "settings": {
+        "eyebrow": "Seen on social",
+        "heading": "Watch the fur <em>come off</em>",
+        "handle_text": "Tag @furlo to be featured",
+        "scheme": "dark"
+      },
+      "blocks": {
+        "r1": {
+          "type": "reel",
+          "settings": {
+            "caption": "[EXAMPLE] One cushion, one full chamber",
+            "name": "Creator clip",
+            "is_placeholder": true
+          }
+        },
+        "r2": {
+          "type": "reel",
+          "settings": {
+            "caption": "[EXAMPLE] Husky season vs. Furlo",
+            "name": "Customer clip",
+            "is_placeholder": true
+          }
+        },
+        "r3": {
+          "type": "reel",
+          "settings": {
+            "caption": "[EXAMPLE] Car seats in 60 seconds",
+            "name": "Creator clip",
+            "is_placeholder": true
+          }
+        },
+        "r4": {
+          "type": "reel",
+          "settings": {
+            "caption": "[EXAMPLE] Emptying it is so satisfying",
+            "name": "Customer clip",
+            "is_placeholder": true
+          }
+        },
+        "r5": {
+          "type": "reel",
+          "settings": {
+            "caption": "[EXAMPLE] Cat tree, before guests arrive",
+            "name": "Customer clip",
+            "is_placeholder": true
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ]
+    },
+    "popup": {
+      "type": "ck-popup",
+      "settings": {
+        "discount_code": "FURLO10",
+        "delay": 15,
+        "eyebrow": "Pet parents club",
+        "heading": "Get <em>10% off</em> your first Furlo",
+        "text": "Join for your code, plus fur-fighting tips for every season of shedding.",
+        "button_label": "Reveal my code",
+        "decline_label": "No thanks, I like fur",
+        "success_heading": "Here's your 10% off",
+        "success_text": "Use it at checkout. It stacks with Buy 2, Get 1 Free.",
+        "shop_label": "Shop Furlo",
+        "shop_link": "#buy"
+      }
     }
   },
-  "order": ["brand", "announce", "main", "ticker", "why", "problem", "expect", "versus", "reviews", "guarantee", "faq", "sticky"]
+  "order": [
+    "brand",
+    "announce",
+    "main",
+    "ticker",
+    "why",
+    "problem",
+    "beforeafter",
+    "anatomy",
+    "expect",
+    "versus",
+    "reviews",
+    "reels",
+    "guarantee",
+    "faq",
+    "sticky",
+    "popup"
+  ]
 }

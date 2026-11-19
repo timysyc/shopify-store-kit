@@ -47,6 +47,29 @@
     --ck-heading-case: {% if section.settings.uppercase_headings %}uppercase{% else %}none{% endif %};
     --ck-heading-spacing: {% if section.settings.uppercase_headings %}0.01em{% else %}-0.015em{% endif %};
     --ck-btn-case: {% if section.settings.uppercase_buttons %}uppercase{% else %}none{% endif %};
+    {%- case section.settings.style_preset -%}
+      {%- when 'soft' %}
+    --ck-border-w: 0px;
+    --ck-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 12px 32px -14px rgba(16, 24, 40, .18);
+    --ck-shadow-hover: 0 2px 4px rgba(16, 24, 40, .05), 0 22px 44px -16px rgba(16, 24, 40, .26);
+    --ck-line: var(--ck-border);
+      {%- when 'bold' %}
+    --ck-border-w: 2px;
+    --ck-shadow: 4px 4px 0 {{ section.settings.text }};
+    --ck-shadow-hover: 6px 6px 0 {{ section.settings.text }};
+    --ck-line: {{ section.settings.text }};
+      {%- when 'luxe' %}
+    --ck-border-w: 1px;
+    --ck-shadow: none;
+    --ck-shadow-hover: 0 18px 40px -28px rgba(0, 0, 0, .35);
+    --ck-line: {{ section.settings.border }};
+    --ck-heading-spacing: 0em;
+      {%- else %}
+    --ck-border-w: 1px;
+    --ck-shadow: 0 1px 2px rgba(16, 24, 40, .05);
+    --ck-shadow-hover: 0 14px 30px -18px rgba(16, 24, 40, .25);
+    --ck-line: {{ section.settings.border }};
+    {%- endcase %}
   }
   {%- if section.settings.apply_page_bg %}
   body { background: {{ section.settings.background }}; }
@@ -99,7 +122,10 @@
       { "value": "rounded", "label": "Match corner radius" },
       { "value": "square", "label": "Square" }
     ] },
-    { "type": "checkbox", "id": "uppercase_buttons", "label": "Uppercase buttons", "default": true }
+    { "type": "checkbox", "id": "uppercase_buttons", "label": "Uppercase buttons", "default": true },
+    { "type": "select", "id": "style_preset", "label": "Card style", "default": "soft", "info": "Clean: hairline borders. Soft: floating shadows. Bold: thick outlines + offset shadow (Gen-Z / streetwear). Luxe: thin lines, no shadow.", "options": [
+      { "value": "clean", "label": "Clean" }, { "value": "soft", "label": "Soft" }, { "value": "bold", "label": "Bold" }, { "value": "luxe", "label": "Luxe" }
+    ] }
   ],
   "presets": [{ "name": "CK Brand" }]
 }

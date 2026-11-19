@@ -51,6 +51,8 @@ If something is missing, do not stop. Make a sensible assumption, label it `ASSU
    - Stock block: leave `fallback_text` as a true statement such as "In stock, ships in 1–2 business days". The low-stock line uses real inventory on its own.
    - Health or skin claims: say "helps support", add `*`, and add the FDA-style disclaimer as a footnote. Never use "cure", "treat" or "clinically proven" unless you have the study.
    - Ticker logos ("As featured in"): only real press.
+   - Video reels and before/after: only footage and photos you own or have written permission to use. Unedited before/after shots, same angle and light. With none yet, set `is_placeholder: true` on reels and leave before/after out.
+   - Popup discount: the `discount_code` must exist in Shopify before launch. Results rings: real survey or test numbers only, source in the footnote.
 3. **Message match.** The headline and the hook line must repeat the promise made in `AD_ANGLE`. If there is no angle, pick the strongest one and use it everywhere: ad, hero, buy box and guarantee.
 4. **Mobile first.** 75% of paid traffic is on a phone. Above the fold on mobile, the shopper must see: stars (when real), title, hook line, price or bundle, and the add to cart button within about 1.5 screens.
 5. **Plain copy.** Aim for a reading age of 12. Short sentences. Benefits before features. One idea per bullet. No "elevate", "revolutionary", "game-changer" or "unleash".
@@ -73,19 +75,19 @@ Work out and output:
 2. **Voice:** 3 adjectives, 5 words to use, 5 words to avoid.
 3. **Visual system:** start from the niche matrix below, then adjust to the product's own colours (packaging, the product's real colour, the supplier photos). The colours must not fight the product photos.
 
-| Niche | Palette direction | Heading font | Body font | Radius | Buttons | Headings |
-|---|---|---|---|---|---|---|
-| Beauty / skincare | blush or nude background, deep rose/plum primary, soft gold accent | `playfair_display_n7` | `dm_sans_n4` | 18 | pill | sentence case |
-| Health / supplements | clean white, deep navy or forest primary, energetic orange or lime button | `montserrat_n8` | `work_sans_n4` | 12 | rounded | UPPERCASE |
-| Pets | warm cream, teal or forest primary, coral button | `poppins_n7` | `nunito_sans_n4` | 20 | pill | sentence case |
-| Home / cleaning | crisp white, cobalt or navy primary, orange button | `archivo_n7` | `karla_n4` | 12 | rounded | sentence case |
-| Fitness / men's | charcoal or black sections, electric lime or red button | `oswald_n7` | `barlow_n4` | 6 | square | UPPERCASE |
-| Sleep / wellness / calm | lavender or sage background, deep indigo primary | `lora_n7` | `jost_n4` | 22 | pill | sentence case |
-| Baby / kids | soft pastels, warm coral primary | `poppins_n6` | `nunito_sans_n4` | 24 | pill | sentence case |
-| Tech / gadgets | white + near-black, electric blue button | `dm_sans_n7` | `dm_sans_n4` | 14 | rounded | sentence case |
-| Fashion / jewelry | ivory + black, muted gold accent | `libre_baskerville_n7` | `jost_n4` | 2 | square | UPPERCASE |
-| Kitchen / food | warm white, tomato red or olive primary | `playfair_display_n7` | `work_sans_n4` | 14 | rounded | sentence case |
-| Outdoor / auto / tools | stone or khaki, olive primary, safety-orange button | `barlow_n7` | `barlow_n4` | 6 | square | UPPERCASE |
+| Niche | Palette direction | Heading font | Body font | Radius | Buttons | Headings | Card style |
+|---|---|---|---|---|---|---|---|
+| Beauty / skincare | blush or nude background, deep rose/plum primary, soft gold accent | `playfair_display_n7` | `dm_sans_n4` | 18 | pill | sentence case | `soft` |
+| Health / supplements | clean white, deep navy or forest primary, energetic orange or lime button | `montserrat_n8` | `work_sans_n4` | 12 | rounded | UPPERCASE | `soft` |
+| Pets | warm cream, teal or forest primary, coral button | `poppins_n7` | `nunito_sans_n4` | 20 | pill | sentence case | `soft` |
+| Home / cleaning | crisp white, cobalt or navy primary, orange button | `archivo_n7` | `karla_n4` | 12 | rounded | sentence case | `clean` |
+| Fitness / men's | charcoal or black sections, electric lime or red button | `oswald_n7` | `barlow_n4` | 6 | square | UPPERCASE | `bold` |
+| Sleep / wellness / calm | lavender or sage background, deep indigo primary | `lora_n7` | `jost_n4` | 22 | pill | sentence case | `soft` |
+| Baby / kids | soft pastels, warm coral primary | `poppins_n6` | `nunito_sans_n4` | 24 | pill | sentence case | `soft` |
+| Tech / gadgets | white + near-black, electric blue button | `dm_sans_n7` | `dm_sans_n4` | 14 | rounded | sentence case | `clean` |
+| Fashion / jewelry | ivory + black, muted gold accent | `libre_baskerville_n7` | `jost_n4` | 2 | square | UPPERCASE | `luxe` |
+| Kitchen / food | warm white, tomato red or olive primary | `playfair_display_n7` | `work_sans_n4` | 14 | rounded | sentence case | `soft` |
+| Outdoor / auto / tools | stone or khaki, olive primary, safety-orange button | `barlow_n7` | `barlow_n4` | 6 | square | UPPERCASE | `bold` |
 
 **Colour rules (check every one):**
 - `button` is the single most saturated colour on the page. Nothing else may compete with it.
@@ -116,23 +118,56 @@ Work out and output:
 |---|---|---|
 | 1 | `ck-brand` | colours, fonts, corners |
 | 2 | `ck-announcement` | 2–3 rotating lines: offer · free shipping · guarantee |
-| 3 | `ck-product` | buy box. Blocks in this order: `rating` → `title` → `subtitle` → `benefits` (4 lines) → `variant_picker` (only if VARIANTS) → `bundles` → `delivery` → `buy_buttons` → `guarantees` → `payment_icons` → `review` (the best real review) → `accordion` ×3 (description with `use_description: true` and `first: true` · how to use · shipping & returns) → `upsell` (only if given) |
+| 3 | `ck-product` | buy box. Blocks in this order: `rating` → `title` → `subtitle` → `benefits` (4 lines) → `variant_picker` (only if VARIANTS) → `bundles` → `subscription` (consumables only) → `delivery` → `buy_buttons` (`shimmer: true`) → `installments` (if price ≥ $35) → `guarantees` → `payment_icons` → `reels` (only with real videos) → `review` (the best real review) → `accordion` ×3 (description with `use_description: true` and `first: true` · how to use · shipping & returns) → `upsell` (only if given) |
 | 4 | `ck-ticker` | 4–6 short trust phrases, brand-colour background |
 | 5 | `ck-benefits` (grid, 3 or 4 cards) | "what's in it for me" |
 | 6 | `ck-image-text` | problem → mechanism → proof checks |
+| 6b | `ck-before-after` | visual proof, if the product changes how something looks (skin, cleaning, posture, hair, car, garden). Otherwise skip |
+| 6c | `ck-hotspots` | 3–5 pins on the product shot: the features that justify the price |
 | 7 | `ck-timeline` | "will it work and how fast": honest steps, ending with "results vary" |
 | 8 | `ck-stats` | ONLY with real numbers + footnote source |
 | 9 | `ck-comparison` (table) | "why not the cheap version / the old way" |
 | 10 | `ck-reviews` (masonry, 6 blocks) | social proof wall |
+| 10b | `ck-reels` | UGC / creator videos, dark background. Put it right before or after the reviews wall |
 | 11 | `ck-guarantee` | remove the risk. Button link `#buy` (jumps back to the buy box) |
 | 12 | `ck-faq` (6–8 questions) | the leftover objections: shipping, returns, sizing/compatibility, safety, how to use, support |
 | 13 | `ck-sticky-atc` | sticky add to cart bar |
+| 14 | `ck-popup` | email capture with a real welcome code (10% is standard). One per store, so put it on the product template and the home template |
 
 Any button that should jump back to the buy box links to `#buy`. Alternate backgrounds (`scheme`) so neighbouring sections never share one. Example rhythm: product default → ticker primary → benefits default → image-text surface → timeline default → comparison surface → reviews accent → guarantee default → faq surface.
 
 **Home page** (`templates/index.json`): ck-brand → ck-announcement → ck-hero (split, button `/products/<handle>`) → ck-ticker → ck-product (`product: "<handle>"`) → ck-benefits → ck-reviews (`product: "<handle>"`) → ck-comparison → ck-guarantee → ck-faq.
 
 **Pre-lander / listicle** (`templates/page.<handle>-listicle.json`). This is where you send cold traffic: ck-brand → ck-hero (`layout: center`, byline, headline like "7 reasons [customers] are switching to [brand]", button to the product) → ck-benefits (`layout: listicle`, 5–7 reasons, each one an objection turned into a benefit, `button_label` + `button_link` to the product) → ck-comparison (`layout: cards`) → ck-reviews → ck-guarantee (button to the product) → ck-faq.
+
+## STEP 4b — 2026 TREND PLAYBOOK (what the top AI store builders ship)
+
+Researched from Elixir, Atlas (Dropshipt), Shrine Pro and their demo stores. Use the ones that fit the product; never all of them at once.
+
+| Pattern | Kit piece | Use when | Why it lifts conversion |
+|---|---|---|---|
+| Quantity-break bundles with "Most popular" pre-selected | `bundles` block | always | anchors on the middle tier; raises AOV 20–40% |
+| Gradient-ring selected bundle + shimmer CTA | built into `ck.css`, `shimmer: true` | always | draws the eye to the one action that matters |
+| UGC video strip in the buy box | `reels` block | you have 3+ real creator/customer clips | video proof at the moment of decision |
+| Full reels section on dark background | `ck-reels` | 4+ clips | social-native, feels like TikTok, holds scroll |
+| Before / after slider | `ck-before-after` | visible results | the fastest proof there is; interactive = engagement |
+| Feature hotspots | `ck-hotspots` | product has 3+ physical features | justifies price without a wall of text |
+| Benefit chips | `benefits` with `style: chips` | 4–6 two-word benefits | scannable on mobile above the fold |
+| Results rings | `ck-stats` with `layout: rings` | real survey or test data | clinical credibility (supplements, skincare) |
+| Photo strip marquee | `ck-ticker` with `style: photos` | 6+ lifestyle/UGC photos | "people like me use this" |
+| Floating glass badges on hero | `ck-hero` `chip_1..3` | home page and pre-lander | premium look, key claims at a glance |
+| Countdown in announcement bar | `ck-announcement` `end` | a real sale with an end date | urgency without a fake timer |
+| Pay in 4 line | `installments` block | price ≥ $35 and Shop Pay Installments on | lowers the price in the shopper's head |
+| Subscribe & save | `subscription` block | consumables (supplements, skincare, pet food) | recurring revenue, lower CPA over time |
+| Tiered cart rewards | `ck-cart-progress` snippet: `m1` free shipping, `m2` free gift | always | pushes the cart into tier 2 |
+| Email popup with real code | `ck-popup` | always | captures 3–6% of visitors for abandoned-cart and launch emails |
+
+**Design rules that make it look premium (not "dropshipping"):**
+- Pick the `style_preset` from the niche matrix: `soft` (floating shadows) for most, `bold` (thick outlines + offset shadow) for Gen-Z, fitness and streetwear, `luxe` (thin lines, no shadow) for fashion and jewelry, `clean` for tech.
+- One accent word per heading in `<em>`. Never two.
+- Product photos on a background colour that matches `surface`, not pure white: the page reads as one brand.
+- Alternate `scheme` every section, and use `primary` or `dark` for 2–3 sections max (ticker, reels, stats).
+- No emoji in headings, no ALL CAPS paragraphs, no more than 2 badges on one bundle card.
 
 ## STEP 5 — COPY LIMITS
 
@@ -158,7 +193,7 @@ Any button that should jump back to the buy box links to `#buy`. Alternate backg
 - **E. `templates/index.json`**: complete, in a ```json block.
 - **F. `templates/page.<handle>-listicle.json`**: complete, in a ```json block.
 - **G. Cart bar:** the two values to put in `snippets/ck-cart-progress.liquid` (`ck_threshold` in cents, and `ck_reward`).
-- **H. Images:** a shot list of 7 gallery images in order (hero on white, in use, close-up of the key feature, infographic with 3 callouts, scale/size, before/after or problem/solution, what's in the box). Add 6 section images. Give each an AI image prompt.
+- **H. Images:** a shot list of 7 gallery images in order (hero on white, in use, close-up of the key feature, infographic with 3 callouts, scale/size, before/after or problem/solution, what's in the box). Add 6 section images (include a before/after pair and a clean hotspot shot if those sections are used). Give each an AI image prompt. If reels are used, add a 4-clip UGC brief: hook in the first 2 seconds, product in hand, the result on screen, no music with lyrics.
 - **I. Reviews plan:** how to get the first 20 real reviews in 14 days. Include a review-app setup, a post-purchase email asking for a photo review, and the exact email text.
 - **J. Launch checklist:** at most 12 checkboxes.
 - **K. 5 ad hooks:** they must match the page headline and the hook line.
@@ -192,17 +227,17 @@ Any button that should jump back to the buy box links to `#buy`. Alternate backg
 <!-- SCHEMA:START -->
 
 #### `ck-brand` — CK Brand
-- settings: `primary` (color) = "#111827"; `primary_text` (color) = "#ffffff"; `button` (color) = "#111827"; `button_text` (color) = "#ffffff"; `accent` (color) = "#ef4444"; `accent_text` (color) = "#ffffff"; `accent_soft` (color) = "#fef2f2"; `background` (color) = "#ffffff"; `surface` (color) = "#f5f5f3"; `card` (color) = "#ffffff"; `text` (color) = "#111827"; `muted` (color) = "#6b7280"; `border` (color) = "#e5e7eb"; `star` (color) = "#f5b301"; `success` (color) = "#15803d"; `dark` (color) = "#0d0d0f"; `apply_page_bg` (checkbox) = true; `heading_font` (font_picker) = "assistant_n4"; `heading_weight` (select [500 | 600 | 700 | 800]) = "700"; `uppercase_headings` (checkbox) = false; `body_font` (font_picker) = "assistant_n4"; `radius` (range 0–28 step 2) = 14; `button_shape` (select [pill | rounded | square]) = "pill"; `uppercase_buttons` (checkbox) = true
+- settings: `primary` (color) = "#111827"; `primary_text` (color) = "#ffffff"; `button` (color) = "#111827"; `button_text` (color) = "#ffffff"; `accent` (color) = "#ef4444"; `accent_text` (color) = "#ffffff"; `accent_soft` (color) = "#fef2f2"; `background` (color) = "#ffffff"; `surface` (color) = "#f5f5f3"; `card` (color) = "#ffffff"; `text` (color) = "#111827"; `muted` (color) = "#6b7280"; `border` (color) = "#e5e7eb"; `star` (color) = "#f5b301"; `success` (color) = "#15803d"; `dark` (color) = "#0d0d0f"; `apply_page_bg` (checkbox) = true; `heading_font` (font_picker) = "assistant_n4"; `heading_weight` (select [500 | 600 | 700 | 800]) = "700"; `uppercase_headings` (checkbox) = false; `body_font` (font_picker) = "assistant_n4"; `radius` (range 0–28 step 2) = 14; `button_shape` (select [pill | rounded | square]) = "pill"; `uppercase_buttons` (checkbox) = true; `style_preset` (select [clean | soft | bold | luxe]) = "soft"
 
 #### `ck-announcement` — CK Announcement
-- settings: `bg` (color) = "#111827"; `color` (color) = "#ffffff"; `speed` (range 2–10 step 1) = 4
+- settings: `bg` (color) = "#111827"; `color` (color) = "#ffffff"; `speed` (range 2–10 step 1) = 4; `end` (text); `timer_label` (text) = "Ends in"
 - block `message`: `text` (inline_richtext) = "Free shipping on orders over $50"; `link` (url)
 
 #### `ck-hero` — CK Hero
-- settings: `layout` (select [split | rev | center]) = "split"; `rating` (range 3–5 step 0.1) = 4.8; `rating_text` (text); `eyebrow` (text); `heading` (inline_richtext) = "The headline that <em>matches your ad</em>"; `byline` (text); `text` (richtext) = "<p>One or two sentences that state the result your customer wants.</p>"; `bullets` (textarea) = "Free shipping\n30-day guarantee"; `button_label` (text) = "Shop now"; `button_link` (url); `trust_text` (text) = "30-day money-back guarantee"; `image` (image_picker); `product` (product); `scheme` (select [default | surface | accent | primary | dark]) = "surface"; `padding_top` (range 0–140 step 4) = 64; `padding_bottom` (range 0–140 step 4) = 64
+- settings: `layout` (select [split | rev | center]) = "split"; `rating` (range 3–5 step 0.1) = 4.8; `rating_text` (text); `eyebrow` (text); `heading` (inline_richtext) = "The headline that <em>matches your ad</em>"; `byline` (text); `text` (richtext) = "<p>One or two sentences that state the result your customer wants.</p>"; `bullets` (textarea) = "Free shipping\n30-day guarantee"; `button_label` (text) = "Shop now"; `button_link` (url); `trust_text` (text) = "30-day money-back guarantee"; `image` (image_picker); `product` (product); `chip_1` (text); `chip_1_icon` (select [star | check | leaf | truck | shield | heart | bolt | paw | sparkles]) = "star"; `chip_2` (text); `chip_2_icon` (select [star | check | leaf | truck | shield | heart | bolt | paw | sparkles]) = "check"; `chip_3` (text); `chip_3_icon` (select [star | check | leaf | truck | shield | heart | bolt | paw | sparkles]) = "shield"; `scheme` (select [default | surface | accent | primary | dark]) = "surface"; `padding_top` (range 0–140 step 4) = 64; `padding_bottom` (range 0–140 step 4) = 64
 
 #### `ck-ticker` — CK Ticker / Logos
-- settings: `label` (text); `speed` (range 10–80 step 2) = 30; `scheme` (select [default | surface | accent | primary | dark]) = "primary"; `padding_top` (range 0–80 step 2) = 14; `padding_bottom` (range 0–80 step 2) = 14
+- settings: `style` (select [text | logos | photos]) = "text"; `label` (text); `speed` (range 10–80 step 2) = 30; `scheme` (select [default | surface | accent | primary | dark]) = "primary"; `padding_top` (range 0–80 step 2) = 14; `padding_bottom` (range 0–80 step 2) = 14
 - block `item`: `text` (text) = "Free shipping over $50"; `icon` (select [none | check | star | truck | shield | return | heart | leaf | sparkles | paw | bolt | award | users]) = "check"; `logo` (image_picker)
 
 #### `ck-product` — CK Product
@@ -212,7 +247,7 @@ Any button that should jump back to the buy box links to `#buy`. Alternate backg
 - block `title` (max 1): `title` (text)
 - block `subtitle`: `text` (inline_richtext) = "<strong>One-line promise</strong> that matches your ad."
 - block `price` (max 1): `show_save` (checkbox) = true; `save_format` (select [percent | amount]) = "percent"; `save_label` (text) = "Save"
-- block `benefits`: `items` (textarea) = "Main benefit|in plain words\nSecond benefit|that removes a worry\nThird benefit|that proves it works"; `icon` (select [check | star | heart | bolt | leaf | sparkles | paw | arrow]) = "check"; `style` (select [plain | boxed]) = "plain"
+- block `benefits`: `items` (textarea) = "Main benefit|in plain words\nSecond benefit|that removes a worry\nThird benefit|that proves it works"; `icon` (select [check | star | heart | bolt | leaf | sparkles | paw | arrow]) = "check"; `style` (select [plain | boxed | chips]) = "plain"
 - block `highlight`: `icon` (select [gift | truck | percent | bolt | sparkles | clock]) = "gift"; `text` (inline_richtext) = "Free shipping on orders over $50"
 - block `social_proof`: `avatar_1` (image_picker); `avatar_2` (image_picker); `avatar_3` (image_picker); `text` (inline_richtext) = "Loved by <strong>10,000+</strong> customers"
 - block `variant_picker` (max 1): `hide_option` (text)
@@ -220,12 +255,15 @@ Any button that should jump back to the buy box links to `#buy`. Alternate backg
 - block `stock` (max 1): `threshold` (range 1–50 step 1) = 10; `low_text` (text) = "Only [count] left in stock"; `fallback_text` (text) = "In stock, ready to ship"
 - block `delivery` (max 1): `icon` (select [truck | box | clock | globe]) = "truck"; `text` (text) = "Order today, get it <strong>[start] – [end]</strong>"; `min_days` (range 1–30 step 1) = 5; `max_days` (range 1–45 step 1) = 9; `skip_weekends` (checkbox) = true
 - block `countdown` (max 1): `end` (text); `label` (text) = "Sale ends in"
-- block `buy_buttons` (max 1): `label` (text) = "Add to cart"; `soldout_label` (text) = "Sold out"; `show_price` (checkbox) = true; `pulse` (checkbox) = false; `show_dynamic_checkout` (checkbox) = false; `subtext` (text) = "30-day money-back guarantee"; `sub_icon` (select [none | shield | truck | lock | return]) = "shield"
+- block `buy_buttons` (max 1): `label` (text) = "Add to cart"; `soldout_label` (text) = "Sold out"; `show_price` (checkbox) = true; `pulse` (checkbox) = false; `shimmer` (checkbox) = true; `show_dynamic_checkout` (checkbox) = false; `subtext` (text) = "30-day money-back guarantee"; `sub_icon` (select [none | shield | truck | lock | return]) = "shield"
 - block `guarantees`: `items` (textarea) = "truck|Free shipping|On orders $50+\nreturn|30-day returns|Hassle free\nshield|Secure checkout|SSL encrypted"
 - block `payment_icons` (max 1): `label` (text) = "Secure checkout"
 - block `review`: `rating` (range 1–5 step 1) = 5; `text` (textarea); `name` (text) = "Customer"; `verified` (checkbox) = true; `avatar` (image_picker); `is_placeholder` (checkbox) = false
 - block `accordion`: `title` (text) = "Description"; `icon` (select [none | box | truck | return | leaf | flask | chat | sparkles]) = "none"; `use_description` (checkbox) = false; `content` (richtext); `open` (checkbox) = false; `first` (checkbox) = false
 - block `upsell`: `heading` (text) = "Frequently bought together"; `product` (product); `label` (text); `subtext` (text); `checked` (checkbox) = false
+- block `installments` (max 1): (no settings)
+- block `subscription` (max 1): `heading` (text) = "Purchase options"; `onetime_label` (text) = "One-time purchase"; `subscribe_label` (text) = "Subscribe & save"; `default_subscribe` (checkbox) = false; `perks` (text) = "Skip or cancel anytime. Free shipping on every delivery."
+- block `reels` (max 1): `heading` (text) = "See it in action"; `video_1` (video); `poster_1` (image_picker); `video_2` (video); `poster_2` (image_picker); `video_3` (video); `poster_3` (image_picker); `video_4` (video); `poster_4` (image_picker)
 - block `notice`: `icon` (select [clock | truck | gift | sparkles | chat]) = "clock"; `text` (inline_richtext) = "Ships from our US warehouse"
 - block `text`: `text` (richtext) = "<p>Add any text here.</p>"; `align` (select [left | center]) = "left"
 - block `custom_liquid`: `liquid` (liquid)
@@ -240,8 +278,15 @@ Any button that should jump back to the buy box links to `#buy`. Alternate backg
 #### `ck-image-text` — CK Image + text
 - settings: `image` (image_picker); `image_side` (select [left | right]) = "left"; `eyebrow` (text); `heading` (inline_richtext) = "More than a product, <em>a better routine</em>"; `text` (richtext) = "<p>Describe the transformation or the problem this solves.</p>"; `checks` (textarea) = "First proof point\nSecond proof point\nThird proof point"; `button_label` (text) = "Shop now"; `button_link` (url); `scheme` (select [default | surface | accent | primary | dark]) = "default"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
 
+#### `ck-before-after` — CK Before / After
+- settings: `before_image` (image_picker); `after_image` (image_picker); `before_label` (text) = "Before"; `after_label` (text) = "After"; `start` (range 10–90 step 5) = 50; `text_side` (select [right | left | none]) = "right"; `eyebrow` (text); `heading` (inline_richtext) = "See the <em>difference</em>"; `text` (richtext); `checks` (textarea); `button_label` (text); `button_link` (url); `footnote` (text) = "Real customer photo. Results vary."; `scheme` (select [default | surface | accent | primary | dark]) = "default"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
+
+#### `ck-hotspots` — CK Feature Hotspots
+- settings: `image` (image_picker); `eyebrow` (text); `heading` (inline_richtext) = "Designed down to <em>the detail</em>"; `subheading` (text); `scheme` (select [default | surface | accent | primary | dark]) = "surface"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
+- block `spot` (max 6): `x` (range 0–100 step 1) = 50; `y` (range 0–100 step 1) = 50; `title` (text) = "Feature"; `text` (text) = "What it does for the customer."
+
 #### `ck-stats` — CK Stats
-- settings: `eyebrow` (text); `heading` (inline_richtext) = "The numbers <em>speak</em>"; `subheading` (text); `image` (image_picker); `footnote` (text); `scheme` (select [default | surface | accent | primary | dark]) = "primary"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
+- settings: `eyebrow` (text); `heading` (inline_richtext) = "The numbers <em>speak</em>"; `subheading` (text); `layout` (select [cards | rings]) = "cards"; `image` (image_picker); `footnote` (text); `scheme` (select [default | surface | accent | primary | dark]) = "primary"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
 - block `stat`: `prefix` (text); `value` (text) = "97"; `suffix` (text) = "%"; `label` (text) = "say they would buy again"
 
 #### `ck-timeline` — CK Timeline
@@ -257,12 +302,19 @@ Any button that should jump back to the buy box links to `#buy`. Alternate backg
 - block `@app`: review-app / app blocks (no settings, added in the editor)
 - block `review`: `rating` (range 1–5 step 1) = 5; `title` (text); `text` (textarea); `name` (text) = "Customer"; `meta` (text); `verified` (checkbox) = true; `image` (image_picker); `is_placeholder` (checkbox) = false
 
+#### `ck-reels` — CK Video Reels
+- settings: `eyebrow` (text) = "Seen on social"; `heading` (inline_richtext) = "Real people, <em>real results</em>"; `subheading` (text); `autoplay` (checkbox) = true; `handle_text` (text) = "Tag us to be featured"; `handle_link` (url); `scheme` (select [default | surface | accent | primary | dark]) = "dark"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
+- block `reel`: `video` (video); `poster` (image_picker); `caption` (text); `name` (text); `rating` (range 0–5 step 1) = 5; `is_placeholder` (checkbox) = false
+
 #### `ck-guarantee` — CK Guarantee
 - settings: `days` (text) = "30"; `seal_text` (text) = "Day money-back guarantee"; `heading` (inline_richtext) = "Try it <em>risk-free</em>"; `text` (richtext) = "<p>If you are not happy, email us within 30 days for a full refund. No forms, no hassle.</p>"; `trust` (text) = "Free returns, Fast support, Secure checkout"; `button_label` (text) = "Claim my discount"; `button_link` (url); `scheme` (select [default | surface | accent | primary | dark]) = "surface"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
 
 #### `ck-faq` — CK FAQ
 - settings: `eyebrow` (text); `heading` (inline_richtext) = "Questions? <em>Answered.</em>"; `subheading` (text); `open_first` (checkbox) = false; `contact_text` (inline_richtext) = "Still unsure? Email us and a real person replies within 24 hours."; `schema_markup` (checkbox) = true; `scheme` (select [default | surface | accent | primary | dark]) = "default"; `padding_top` (range 0–140 step 4) = 72; `padding_bottom` (range 0–140 step 4) = 72
 - block `question`: `question` (text) = "How long does shipping take?"; `answer` (richtext) = "<p>Give a clear, honest answer.</p>"
+
+#### `ck-popup` — CK Email Popup
+- settings: `enabled` (checkbox) = true; `discount_code` (text) = "WELCOME10"; `delay` (range 3–60 step 1) = 12; `exit_intent` (checkbox) = true; `show_mobile` (checkbox) = true; `image` (image_picker); `eyebrow` (text) = "Members only"; `heading` (inline_richtext) = "Get <em>10% off</em> your first order"; `text` (text) = "Join the list for your code, plus care tips and early access to new drops."; `button_label` (text) = "Reveal my code"; `decline_label` (text) = "No thanks, I'll pay full price"; `success_eyebrow` (text) = "You're in"; `success_heading` (inline_richtext) = "Here's your 10% off"; `success_text` (text) = "Use it at checkout. It works on bundles too."; `shop_label` (text) = "Shop now"; `shop_link` (url)
 
 <!-- SCHEMA:END -->
 

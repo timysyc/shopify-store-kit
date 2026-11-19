@@ -130,6 +130,11 @@
     }
 
     tiers.forEach(function (t) { $('input', t).addEventListener('change', render); });
+    $$('[data-ck-subs] input', root).forEach(function (inp) {
+      inp.addEventListener('change', function () {
+        $$('.ck-subs__opt', root).forEach(function (o) { o.classList.toggle('is-selected', $('input', o).checked); });
+      });
+    });
     if (tiers.length && !selectedTier()) $('input', tiers[0]).checked = true;
 
     /* variant pills */
@@ -192,6 +197,8 @@
       if (atc && atc.disabled) return;
       showError('');
       var items = [{ id: Number(idInput.value), quantity: Number(qtyInput.value) || 1 }];
+      var subSel = $('[data-ck-subs] input:checked', root);
+      if (subSel && subSel.value) items[0].selling_plan = Number(subSel.value);
       $$('[data-ck-upsell]:checked', root).forEach(function (u) { items.push({ id: Number(u.value), quantity: 1 }); });
 
       var mode = root.dataset.afterAdd || 'drawer';
@@ -359,11 +366,108 @@
 
   /* ---------- reveal on scroll ---------- */
   function initReveal(el) {
-    if (el.__ck) return;
-    el.__ck = true;
+    if (el.__ckReveal) return;
+    el.__ckReveal = true;
     if (!('IntersectionObserver' in window)) { el.classList.add('is-in'); return; }
     var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { el.classList.add('is-in'); io.disconnect(); } }, { threshold: 0.12 });
     io.observe(el);
+  }
+
+  /* ---------- before / after ---------- */
+  function initBA(el) {
+    if (el.__ck) return;
+    el.__ck = true;
+    var r = $('[data-ck-ba-range]', el);
+    if (r) r.addEventListener('input', function () { el.style.setProperty('--pos', r.value + '%'); });
+  }
+
+  /* ---------- video reels: tap to play, optional muted autoplay in view ---------- */
+  function setPlaying(card, on) { card.classList.toggle('is-playing', on); }
+  function initReels(wrap) {
+    if (wrap.__ck) return;
+    wrap.__ck = true;
+    var auto = wrap.dataset.autoplay === 'true';
+    $$('[data-ck-reel]', wrap).forEach(function (card) {
+      var v = $('video', card);
+      if (!v) return;
+      v.muted = true; v.playsInline = true;
+      card.addEventListener('click', function () {
+        if (v.paused) {
+          $$('video', wrap).forEach(function (o) { if (o !== v) { o.pause(); setPlaying(o.closest('[data-ck-reel]'), false); } });
+          v.muted = false; v.play(); setPlaying(card, true);
+        } else { v.pause(); setPlaying(card, false); }
+      });
+      if (auto && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        new IntersectionObserver(function (en) {
+          if (en[0].isIntersecting) { v.play().then(function () { setPlaying(card, true); }).catch(function () {}); }
+          else if (v.muted) { v.pause(); setPlaying(card, false); }
+        }, { threshold: 0.6 }).observe(card);
+      }
+    });
+  }
+
+  /* ---------- hotspots ---------- */
+  function initHotspots(el) {
+    if (el.__ck) return;
+    el.__ck = true;
+    var pins = $$('[data-ck-pin]', el), items = $$('[data-ck-pin-item]', el);
+    function act(i) {
+      pins.forEach(function (p, j) { p.classList.toggle('is-active', i === j); });
+      items.forEach(function (it, j) { it.classList.toggle('is-active', i === j); });
+    }
+    pins.forEach(function (p, i) {
+      p.addEventListener('click', function () { act(i); if (items[i]) items[i].scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+      p.addEventListener('mouseenter', function () { act(i); });
+    });
+    items.forEach(function (it, i) { it.addEventListener('mouseenter', function () { act(i); }); });
+    act(0);
+  }
+
+  /* ---------- email popup ---------- */
+  function store(k, v) {
+    try { if (v === undefined) return window.localStorage.getItem(k); window.localStorage.setItem(k, v); } catch (e) { return null; }
+    return null;
+  }
+  function initPopup(pop) {
+    if (pop.__ck) return;
+    pop.__ck = true;
+    var key = pop.dataset.key || 'ck-popup';
+    var posted = /customer_posted=true/.test(window.location.search);
+    var mobile = window.matchMedia('(max-width: 749px)').matches;
+    function open(step) {
+      if (step) $$('[data-ck-pop-step]', pop).forEach(function (s) { s.hidden = s.dataset.ckPopStep !== step; });
+      pop.hidden = false;
+      var f = $('input[type="email"]', pop);
+      if (f && !step) setTimeout(function () { f.focus(); }, 50);
+    }
+    function close() { pop.hidden = true; store(key, 'seen'); }
+    $$('[data-ck-pop-close]', pop).forEach(function (b) { b.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) close(); });
+    var form = $('form', pop);
+    if (form) form.addEventListener('submit', function (e) {
+      store(key, 'joined');
+      if (window.CK_PREVIEW) { e.preventDefault(); open('done'); }
+    });
+    pop.addEventListener('ck:open', function () { open('form'); });
+    if (posted) { open('done'); return; }
+    if (store(key) || (mobile && pop.dataset.mobile === 'false')) return;
+    var shown = false;
+    function trigger() { if (!shown) { shown = true; open(); } }
+    setTimeout(trigger, (parseInt(pop.dataset.delay, 10) || 12) * 1000);
+    if (pop.dataset.exit === 'true' && !mobile) document.addEventListener('mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 0) trigger(); });
+  }
+
+  /* ---------- copy buttons ---------- */
+  function initCopy(btn) {
+    if (btn.__ck) return;
+    btn.__ck = true;
+    btn.addEventListener('click', function () {
+      var label = $('[data-ck-copy-label]', btn);
+      function say(t) { if (label) label.textContent = t; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(btn.dataset.ckCopy).then(function () { say('Copied'); }, function () { say('Select the code to copy'); });
+      } else { say('Select the code to copy'); }
+    });
   }
 
   function initAll(scope) {
@@ -376,6 +480,11 @@
     $$('[data-ck-rotator]', scope).forEach(initRotator);
     $$('[data-ck-scroller-nav]', scope).forEach(initScroller);
     $$('.ck-reveal', scope).forEach(initReveal);
+    $$('[data-ck-ba]', scope).forEach(initBA);
+    $$('[data-ck-reels]', scope).forEach(initReels);
+    $$('[data-ck-hotspots]', scope).forEach(initHotspots);
+    $$('[data-ck-popup]', scope).forEach(initPopup);
+    $$('[data-ck-copy]', scope).forEach(initCopy);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { initAll(); });

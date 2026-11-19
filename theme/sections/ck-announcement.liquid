@@ -7,6 +7,9 @@
         {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.text }}</a>{%- else -%}{{ block.settings.text }}{%- endif -%}
       </div>
     {%- endfor -%}
+    {%- if section.settings.end != blank -%}
+      <span class="ck-announce__timer" data-ck-countdown data-end="{{ section.settings.end | escape }}" hidden>{{ section.settings.timer_label }} <b data-d>0d</b> <b data-h>00h</b> <b data-m>00m</b> <b data-s>00s</b></span>
+    {%- endif -%}
     {%- if section.blocks.size > 1 -%}
       <button type="button" class="ck-announce__nav ck-announce__nav--prev" data-ck-a-prev aria-label="Previous message">&#8249;</button>
       <button type="button" class="ck-announce__nav ck-announce__nav--next" data-ck-a-next aria-label="Next message">&#8250;</button>
@@ -20,7 +23,9 @@
   "settings": [
     { "type": "color", "id": "bg", "label": "Background", "default": "#111827" },
     { "type": "color", "id": "color", "label": "Text", "default": "#ffffff" },
-    { "type": "range", "id": "speed", "label": "Seconds per message", "min": 2, "max": 10, "step": 1, "default": 4 }
+    { "type": "range", "id": "speed", "label": "Seconds per message", "min": 2, "max": 10, "step": 1, "default": 4 },
+    { "type": "text", "id": "end", "label": "Sale ends (YYYY-MM-DD HH:MM)", "info": "Optional. Real end date only; the timer hides when it passes." },
+    { "type": "text", "id": "timer_label", "label": "Timer label", "default": "Ends in" }
   ],
   "blocks": [
     {

@@ -3,11 +3,26 @@
     "brand": {
       "type": "ck-brand",
       "settings": {
-        "primary": "#0e4d4a", "primary_text": "#ffffff", "button": "#c93f17", "button_text": "#ffffff",
-        "accent": "#ffc24b", "accent_text": "#3a2600", "accent_soft": "#fff1d6", "background": "#fff9f2",
-        "surface": "#fbf0e4", "card": "#ffffff", "text": "#1f2a2a", "muted": "#5b6766", "border": "#eadfd2",
-        "success": "#15803d", "dark": "#0b2f2d",
-        "heading_font": "poppins_n7", "body_font": "nunito_sans_n4", "radius": 20, "button_shape": "pill"
+        "primary": "#0e4d4a",
+        "primary_text": "#ffffff",
+        "button": "#c93f17",
+        "button_text": "#ffffff",
+        "accent": "#ffc24b",
+        "accent_text": "#3a2600",
+        "accent_soft": "#fff1d6",
+        "background": "#fff9f2",
+        "surface": "#fbf0e4",
+        "card": "#ffffff",
+        "text": "#1f2a2a",
+        "muted": "#5b6766",
+        "border": "#eadfd2",
+        "success": "#15803d",
+        "dark": "#0b2f2d",
+        "heading_font": "poppins_n7",
+        "body_font": "nunito_sans_n4",
+        "radius": 20,
+        "button_shape": "pill",
+        "style_preset": "soft"
       }
     },
     "hero": {
@@ -36,31 +51,129 @@
         "padding_top": 16
       },
       "blocks": {
-        "l1": { "type": "benefit", "settings": { "title": "It pulls fur out of the weave, not just off the top", "text": "<p>Sticky sheets only grab what sits on the surface. Furlo's angled bristles comb fur up out of the fabric and into a sealed chamber.</p>" } },
-        "l2": { "type": "benefit", "settings": { "title": "You never buy refills again", "text": "<p>One roller replaces the endless pack of sticky sheets. Empty it, reuse it, done.</p>" } },
-        "l3": { "type": "benefit", "settings": { "title": "A whole couch takes minutes", "text": "<p>Short back-and-forth strokes cover big areas fast, so it's quick enough to do every day.</p>" } },
-        "l4": { "type": "benefit", "settings": { "title": "It's safe on your furniture", "text": "<p>No suction, heat or blades. Fabric sofas, duvets, cat trees and car seats are all fine.</p>" } },
-        "l5": { "type": "benefit", "settings": { "title": "No batteries, no cord, no noise", "text": "<p>Your cat won't hide from it. Keep one by the couch and one in the car.</p>" } },
-        "l6": { "type": "benefit", "settings": { "title": "Emptying it is weirdly satisfying", "text": "<p>Open the lid and see exactly how much fur came off. You'll want to show someone.</p>" } },
-        "l7": { "type": "benefit", "settings": { "title": "You can try it for 60 days, risk-free", "text": "<p>If it doesn't beat your lint roller, email the team for a full refund. Right now, buy 2 and get a third one free.</p>" } }
+        "l1": {
+          "type": "benefit",
+          "settings": {
+            "title": "It pulls fur out of the weave, not just off the top",
+            "text": "<p>Sticky sheets only grab what sits on the surface. Furlo's angled bristles comb fur up out of the fabric and into a sealed chamber.</p>"
+          }
+        },
+        "l2": {
+          "type": "benefit",
+          "settings": {
+            "title": "You never buy refills again",
+            "text": "<p>One roller replaces the endless pack of sticky sheets. Empty it, reuse it, done.</p>"
+          }
+        },
+        "l3": {
+          "type": "benefit",
+          "settings": {
+            "title": "A whole couch takes minutes",
+            "text": "<p>Short back-and-forth strokes cover big areas fast, so it's quick enough to do every day.</p>"
+          }
+        },
+        "l4": {
+          "type": "benefit",
+          "settings": {
+            "title": "It's safe on your furniture",
+            "text": "<p>No suction, heat or blades. Fabric sofas, duvets, cat trees and car seats are all fine.</p>"
+          }
+        },
+        "l5": {
+          "type": "benefit",
+          "settings": {
+            "title": "No batteries, no cord, no noise",
+            "text": "<p>Your cat won't hide from it. Keep one by the couch and one in the car.</p>"
+          }
+        },
+        "l6": {
+          "type": "benefit",
+          "settings": {
+            "title": "Emptying it is weirdly satisfying",
+            "text": "<p>Open the lid and see exactly how much fur came off. You'll want to show someone.</p>"
+          }
+        },
+        "l7": {
+          "type": "benefit",
+          "settings": {
+            "title": "You can try it for 60 days, risk-free",
+            "text": "<p>If it doesn't beat your lint roller, email the team for a full refund. Right now, buy 2 and get a third one free.</p>"
+          }
+        }
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5", "l6", "l7"]
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5",
+        "l6",
+        "l7"
+      ]
     },
     "versus": {
       "type": "ck-comparison",
-      "settings": { "layout": "cards", "heading": "Furlo vs. <em>sticky rollers</em>", "us_label": "Furlo", "them_label": "Sticky rollers", "scheme": "surface" },
-      "blocks": {
-        "r1": { "type": "row", "settings": { "feature": "Reusable for years", "them_text": "Thrown away after each sheet" } },
-        "r2": { "type": "row", "settings": { "feature": "Pulls fur out of the weave", "them_text": "Surface fur only" } },
-        "r3": { "type": "row", "settings": { "feature": "No ongoing cost", "them_text": "Refills, forever" } },
-        "r4": { "type": "row", "settings": { "feature": "60-day money-back guarantee", "them_text": "No guarantee" } }
+      "settings": {
+        "layout": "cards",
+        "heading": "Furlo vs. <em>sticky rollers</em>",
+        "us_label": "Furlo",
+        "them_label": "Sticky rollers",
+        "scheme": "surface"
       },
-      "block_order": ["r1", "r2", "r3", "r4"]
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "feature": "Reusable for years",
+            "them_text": "Thrown away after each sheet"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "feature": "Pulls fur out of the weave",
+            "them_text": "Surface fur only"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "feature": "No ongoing cost",
+            "them_text": "Refills, forever"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "feature": "60-day money-back guarantee",
+            "them_text": "No guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ]
     },
     "guarantee": {
       "type": "ck-guarantee",
-      "settings": { "days": "60", "heading": "Try it for <em>60 days</em>", "text": "<p>Buy 2, get 1 free today. If it doesn't beat your lint roller, we refund every cent.</p>", "button_label": "Get my Furlo", "button_link": "/products/furlo-roller", "scheme": "default" }
+      "settings": {
+        "days": "60",
+        "heading": "Try it for <em>60 days</em>",
+        "text": "<p>Buy 2, get 1 free today. If it doesn't beat your lint roller, we refund every cent.</p>",
+        "button_label": "Get my Furlo",
+        "button_link": "/products/furlo-roller",
+        "scheme": "default"
+      }
     }
   },
-  "order": ["brand", "hero", "reasons", "versus", "guarantee"]
+  "order": [
+    "brand",
+    "hero",
+    "reasons",
+    "versus",
+    "guarantee"
+  ]
 }

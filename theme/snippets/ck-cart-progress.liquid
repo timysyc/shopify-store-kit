@@ -1,32 +1,76 @@
 {%- comment -%}
-  Free-shipping / free-gift progress bar for the cart drawer.
+  Tiered rewards bar for the cart drawer (free shipping → free gift → extra discount).
   Install: in snippets/cart-drawer.liquid (Dawn), put {% render 'ck-cart-progress' %}
   right above the <cart-drawer-items line. The zip script does this for you.
 
-  EDIT THESE TWO LINES (threshold is in cents: 5000 = $50.00):
+  EDIT THE MILESTONES BELOW. Amounts are in cents (3500 = $35.00). Leave a label empty to drop that step.
+  Every reward must really happen: free shipping rate, an automatic "free gift" discount, etc.
 {%- endcomment -%}
 {%- liquid
-  assign ck_threshold = 5000
-  assign ck_reward = 'FREE shipping'
+  assign m1 = 3500
+  assign m1_label = 'Free shipping'
+  assign m2 = 6000
+  assign m2_label = 'Free gift'
+  assign m3 = 0
+  assign m3_label = ''
 -%}
 {%- if cart.item_count > 0 -%}
   {%- liquid
     assign ck_total = cart.total_price
-    assign ck_left = ck_threshold | minus: ck_total
-    assign ck_pct = ck_total | times: 100 | divided_by: ck_threshold
+    assign goal = m1
+    if m2_label != blank and m2 > goal
+      assign goal = m2
+    endif
+    if m3_label != blank and m3 > goal
+      assign goal = m3
+    endif
+    assign ck_pct = ck_total | times: 100 | divided_by: goal
     if ck_pct > 100
       assign ck_pct = 100
+    endif
+    assign next_amt = 0
+    assign next_label = ''
+    if ck_total < m1
+      assign next_amt = m1 | minus: ck_total
+      assign next_label = m1_label
+    elsif m2_label != blank and ck_total < m2
+      assign next_amt = m2 | minus: ck_total
+      assign next_label = m2_label
+    elsif m3_label != blank and ck_total < m3
+      assign next_amt = m3 | minus: ck_total
+      assign next_label = m3_label
     endif
   -%}
   {{ 'ck.css' | asset_url | stylesheet_tag }}
   <div class="ck-cartbar">
     <p class="ck-cartbar__text">
-      {%- if ck_left > 0 -%}
-        You're <strong>{{ ck_left | money }}</strong> away from <strong>{{ ck_reward }}</strong>
+      {%- if next_amt > 0 -%}
+        You're <strong>{{ next_amt | money }}</strong> away from <strong>{{ next_label }}</strong>
       {%- else -%}
-        🎉 You unlocked <strong>{{ ck_reward }}</strong>
+        🎉 You unlocked every reward
       {%- endif -%}
     </p>
-    <div class="ck-cartbar__track"><div class="ck-cartbar__fill" style="width: {{ ck_pct }}%"></div></div>
+    <div class="ck-cartbar__track">
+      <div class="ck-cartbar__fill" style="width: {{ ck_pct }}%"></div>
+      {%- for i in (1..3) -%}
+        {%- liquid
+          case i
+            when 1
+              assign mv = m1
+              assign ml = m1_label
+            when 2
+              assign mv = m2
+              assign ml = m2_label
+            else
+              assign mv = m3
+              assign ml = m3_label
+          endcase
+        -%}
+        {%- if ml != blank -%}
+          {%- assign pos = mv | times: 100 | divided_by: goal -%}
+          <span class="ck-cartbar__mark{% if ck_total >= mv %} is-done{% endif %}" style="left: {{ pos }}%"><i></i><em>{{ ml }}</em></span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </div>
 {%- endif -%}

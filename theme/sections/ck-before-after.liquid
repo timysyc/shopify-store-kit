@@ -1,0 +1,66 @@
+{%- comment -%} CK Before / After — draggable comparison slider. Use only real, unedited photos. {%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- assign checks = section.settings.checks | newline_to_br | split: '<br />' -%}
+<section class="ck ck--{{ section.settings.scheme }} ck-ba-sec" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    <div class="ck-ba-layout{% if section.settings.text_side == 'none' %} ck-ba-layout--solo{% endif %}{% if section.settings.text_side == 'left' %} ck-ba-layout--rev{% endif %}">
+      <div class="ck-ba ck-reveal" data-ck-ba style="--pos: {{ section.settings.start }}%;">
+        <div class="ck-ba__img ck-ba__after">
+          {%- if section.settings.after_image != blank -%}{{ section.settings.after_image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '600, 900, 1200, 1400', alt: section.settings.after_label }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'ck-placeholder' }}{%- endif -%}
+        </div>
+        <div class="ck-ba__img ck-ba__before" aria-hidden="true">
+          {%- if section.settings.before_image != blank -%}{{ section.settings.before_image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '600, 900, 1200, 1400', alt: section.settings.before_label }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'ck-placeholder' }}{%- endif -%}
+        </div>
+        <span class="ck-ba__tag ck-ba__tag--before">{{ section.settings.before_label }}</span>
+        <span class="ck-ba__tag ck-ba__tag--after">{{ section.settings.after_label }}</span>
+        <span class="ck-ba__handle" aria-hidden="true"><span>&#8249;&#8250;</span></span>
+        <input class="ck-ba__range" type="range" min="0" max="100" value="{{ section.settings.start }}" aria-label="Drag to compare before and after" data-ck-ba-range>
+      </div>
+      {%- if section.settings.text_side != 'none' -%}
+        <div class="ck-reveal">
+          {%- if section.settings.eyebrow != blank -%}<span class="ck-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+          <h2 class="ck-h ck-h2">{{ section.settings.heading }}</h2>
+          {%- if section.settings.text != blank -%}<div class="ck-it__text">{{ section.settings.text }}</div>{%- endif -%}
+          {%- if section.settings.checks != blank -%}
+            <ul class="ck-checks">
+              {%- for c_raw in checks -%}{%- assign c = c_raw | strip -%}{%- if c != blank -%}<li><span class="ck-yes">{% render 'ck-icon', name: 'check' %}</span>{{ c }}</li>{%- endif -%}{%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}<a class="ck-btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }} {% render 'ck-icon', name: 'arrow' %}</a>{%- endif -%}
+          {%- if section.settings.footnote != blank -%}<p class="ck-ba__note">{{ section.settings.footnote }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Before / After",
+  "settings": [
+    { "type": "image_picker", "id": "before_image", "label": "Before image" },
+    { "type": "image_picker", "id": "after_image", "label": "After image", "info": "Same angle, same light, no editing. Both images must be the same size." },
+    { "type": "text", "id": "before_label", "label": "Before label", "default": "Before" },
+    { "type": "text", "id": "after_label", "label": "After label", "default": "After" },
+    { "type": "range", "id": "start", "label": "Starting slider position", "min": 10, "max": 90, "step": 5, "unit": "%", "default": 50 },
+    { "type": "select", "id": "text_side", "label": "Text", "default": "right", "options": [
+      { "value": "right", "label": "Text on the right" }, { "value": "left", "label": "Text on the left" }, { "value": "none", "label": "Slider only" }
+    ] },
+    { "type": "text", "id": "eyebrow", "label": "Small label" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "See the <em>difference</em>" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "textarea", "id": "checks", "label": "Check list (one per line)" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "Real customer photo. Results vary." },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "default", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "presets": [ { "name": "CK Before / After" } ]
+}
+{% endschema %}

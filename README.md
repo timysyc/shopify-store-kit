@@ -7,7 +7,7 @@
 | Folder | What it is |
 |---|---|
 | `STORE-BUILDER-PROMPT.md` | The prompt. Paste it into Claude or ChatGPT with your product details. You get back a brand, an offer, and 3 ready-to-upload page templates. |
-| `theme/` | 14 Shopify sections + snippets + 1 CSS + 1 JS file. They work in any Online Store 2.0 theme (Dawn, Refresh, Sense, etc.). |
+| `theme/` | 18 Shopify sections + snippets + 1 CSS + 1 JS file. They work in any Online Store 2.0 theme (Dawn, Refresh, Sense, etc.). |
 | `tools/validate.mjs` | Checks the prompt's output before you upload, so Shopify never rejects it. |
 | `tools/build-theme-zip.sh` | Merges the kit (and your templates) into your theme in one command. |
 | `sample-store/` | The prompt run on a sample product ("Furlo" pet hair roller): brief, templates, and rendered previews. |
@@ -28,7 +28,13 @@
 - **CK Reviews**: masonry, grid or carousel. Accepts review-app blocks (Judge.me, Loox, Okendo).
 - **CK Guarantee**: big money-back seal.
 - **CK FAQ**: accordion + FAQ schema for Google.
-- **Cart drawer free-shipping bar** (snippet).
+- **CK Before / After**: draggable comparison slider.
+- **CK Feature Hotspots**: product shot with numbered pins and a legend.
+- **CK Video Reels**: TikTok-style vertical UGC videos, tap to play, muted autoplay on screen. Also available as a 4-video strip inside the buy box.
+- **CK Email Popup**: collects emails into Shopify Customers and reveals a real discount code (timed + exit-intent).
+- **Buy box extras**: Shop Pay "4 payments" line, Subscribe & save (with Shopify Subscriptions), benefit chips, shimmer button.
+- **Style presets** in CK Brand: clean, soft, bold, luxe. Also: results rings, photo-strip marquee, hero floating badges, countdown in the announcement bar.
+- **Cart drawer rewards bar** (snippet): free shipping → free gift milestones.
 
 ---
 
@@ -90,8 +96,9 @@ node tools/validate.mjs my-store/*.json
 
 1. **Bundles:** create the automatic discounts the prompt lists (Discounts → Create → *Buy X get Y* or *Amount off products*). The bundle cards show the price, and the discount is applied at checkout. Test checkout once per tier.
 2. **Reviews:** install **Judge.me** (free plan). Stars and review counts then appear on their own in the buy box, the reviews section and the sticky bar. Until then they stay hidden instead of showing fake numbers.
-3. **Free-shipping bar:** set `ck_threshold` (in cents) and `ck_reward` at the top of `snippets/ck-cart-progress.liquid`.
+3. **Rewards bar:** set the milestones (`m1`, `m2`, `m3` in cents, plus labels) at the top of `snippets/ck-cart-progress.liquid`.
 4. Replace every review marked **Placeholder** with a real one, or delete it.
+5. **Popup:** create the discount code in Shopify before you turn the popup on.
 
 ## Editing the kit
 
