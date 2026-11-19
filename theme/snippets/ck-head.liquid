@@ -1,0 +1,8 @@
+{%- comment -%} Section heading block. Usage: {% render 'ck-head', s: section.settings %} {%- endcomment -%}
+{%- if s.heading != blank or s.subheading != blank or s.eyebrow != blank -%}
+  <div class="ck-head{% if s.align == 'left' %} ck-head--left{% endif %} ck-reveal">
+    {%- if s.eyebrow != blank -%}<span class="ck-eyebrow">{{ s.eyebrow }}</span>{%- endif -%}
+    {%- if s.heading != blank -%}<h2 class="ck-h ck-h2">{{ s.heading }}</h2>{%- endif -%}
+    {%- if s.subheading != blank -%}<p class="ck-sub">{{ s.subheading }}</p>{%- endif -%}
+  </div>
+{%- endif -%}

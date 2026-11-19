@@ -1,0 +1,68 @@
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- assign bullets = section.settings.bullets | newline_to_br | split: '<br />' -%}
+<section class="ck ck--{{ section.settings.scheme }} ck-hero ck-hero--{{ section.settings.layout }}" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    <div class="ck-hero__grid">
+      <div class="ck-hero__copy">
+        {%- if section.settings.rating_text != blank -%}
+          <div class="ck-hero__rating">{% render 'ck-stars', rating: section.settings.rating, size: 16 %}<span>{{ section.settings.rating_text }}</span></div>
+        {%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}<div><span class="ck-eyebrow">{{ section.settings.eyebrow }}</span></div>{%- endif -%}
+        <h1 class="ck-h ck-h1">{{ section.settings.heading }}</h1>
+        {%- if section.settings.byline != blank -%}<p class="ck-hero__byline">{{ section.settings.byline }}</p>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="ck-hero__text">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if section.settings.bullets != blank -%}
+          <ul class="ck-hero__bullets">
+            {%- for b_raw in bullets -%}{%- assign b = b_raw | strip -%}{%- if b != blank -%}<li>{% render 'ck-icon', name: 'check' %}{{ b }}</li>{%- endif -%}{%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a class="ck-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }} {% render 'ck-icon', name: 'arrow' %}</a>
+        {%- endif -%}
+        {%- if section.settings.trust_text != blank -%}<div class="ck-hero__trust">{% render 'ck-icon', name: 'shield' %}{{ section.settings.trust_text }}</div>{%- endif -%}
+      </div>
+      {%- if section.settings.layout != 'center' or section.settings.image != blank -%}
+        <div class="ck-hero__media">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 50vw, 100vw', widths: '600, 900, 1200, 1600' }}
+          {%- elsif section.settings.product != blank and section.settings.product.featured_image != blank -%}
+            {{ section.settings.product.featured_image | image_url: width: 1600 | image_tag: loading: 'eager', sizes: '(min-width: 990px) 50vw, 100vw', widths: '600, 900, 1200, 1600' }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'ck-placeholder' }}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Hero",
+  "settings": [
+    { "type": "select", "id": "layout", "label": "Layout", "default": "split", "options": [
+      { "value": "split", "label": "Text left, image right" }, { "value": "rev", "label": "Image left, text right" }, { "value": "center", "label": "Centered (pre-lander / article)" }
+    ] },
+    { "type": "range", "id": "rating", "label": "Stars", "min": 3, "max": 5, "step": 0.1, "default": 4.8 },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "info": "Only real numbers. Leave empty to hide the stars." },
+    { "type": "text", "id": "eyebrow", "label": "Small label above heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "The headline that <em>matches your ad</em>" },
+    { "type": "text", "id": "byline", "label": "Byline (for advertorials)", "info": "Example: By the Furlo team · 4 min read" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>One or two sentences that state the result your customer wants.</p>" },
+    { "type": "textarea", "id": "bullets", "label": "Check bullets (one per line)", "default": "Free shipping\n30-day guarantee" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "trust_text", "label": "Text under button", "default": "30-day money-back guarantee" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "product", "id": "product", "label": "Or use this product's image" },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "surface", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [ { "name": "CK Hero" } ]
+}
+{% endschema %}

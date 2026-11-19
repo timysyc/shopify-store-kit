@@ -1,0 +1,52 @@
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- assign checks = section.settings.checks | newline_to_br | split: '<br />' -%}
+<section class="ck ck--{{ section.settings.scheme }} ck-image-text" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    <div class="ck-it{% if section.settings.image_side == 'right' %} ck-it--rev{% endif %}">
+      <div class="ck-it__media ck-reveal">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '500, 800, 1100, 1400' }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'ck-placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="ck-reveal">
+        {%- if section.settings.eyebrow != blank -%}<span class="ck-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="ck-h ck-h2">{{ section.settings.heading }}</h2>
+        <div class="ck-it__text">{{ section.settings.text }}</div>
+        {%- if section.settings.checks != blank -%}
+          <ul class="ck-checks">
+            {%- for c_raw in checks -%}{%- assign c = c_raw | strip -%}{%- if c != blank -%}<li><span class="ck-yes">{% render 'ck-icon', name: 'check' %}</span>{{ c }}</li>{%- endif -%}{%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a class="ck-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }} {% render 'ck-icon', name: 'arrow' %}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Image + text",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "select", "id": "image_side", "label": "Image side", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Small label" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "More than a product, <em>a better routine</em>" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe the transformation or the problem this solves.</p>" },
+    { "type": "textarea", "id": "checks", "label": "Check list (one per line)", "default": "First proof point\nSecond proof point\nThird proof point" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "default", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "presets": [ { "name": "CK Image + text" } ]
+}
+{% endschema %}

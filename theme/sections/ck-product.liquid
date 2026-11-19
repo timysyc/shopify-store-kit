@@ -1,0 +1,739 @@
+{%- comment -%}
+  CK Product — the converting buy box.
+  Gallery + rating + title + hook + benefits + quantity-break bundles + urgency (real data only)
+  + add to cart + guarantees + payment icons + featured review + accordions + upsell.
+  Works on product templates (uses the page's product) or anywhere else if you pick a product.
+{%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- liquid
+  assign p = section.settings.product | default: product
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+-%}
+{%- if p != blank -%}
+{%- liquid
+  assign current = p.selected_or_first_available_variant
+  assign unit = current.price
+  assign unit_compare = current.compare_at_price | default: 0
+  if unit_compare < unit
+    assign unit_compare = unit
+  endif
+  assign form_id = 'ck-form-' | append: section.id
+  assign htag = 'h2'
+  if template.name == 'product' and section.settings.product == blank
+    assign htag = 'h1'
+  endif
+-%}
+<script>window.CK_MONEY_FORMAT = window.CK_MONEY_FORMAT || {{ shop.money_format | json }};</script>
+<div id="buy" style="position: relative; top: -16px;"></div>
+<section
+  id="ck-product-{{ section.id }}"
+  class="ck ck-product"
+  data-ck-product
+  data-after-add="{{ section.settings.after_add }}"
+  style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <script type="application/json" data-ck-product-json>{{ p | json }}</script>
+  <div class="ck-container ck-product__grid{% if section.settings.gallery_side == 'right' %} ck-product__grid--rev{% endif %}">
+
+    {%- comment -%} ---------- GALLERY ---------- {%- endcomment -%}
+    <div class="ck-gallery" data-ck-gallery>
+      <div class="ck-gallery__stage">
+        <div class="ck-gallery__track" data-ck-track>
+          {%- for media in p.media -%}
+            <div class="ck-gallery__slide" data-media-id="{{ media.id }}">
+              {%- if media.media_type == 'image' -%}
+                {%- if forloop.first -%}
+                  {{ media | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', widths: '500, 800, 1100, 1400', alt: media.alt }}
+                {%- else -%}
+                  {{ media | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 55vw, 100vw', widths: '500, 800, 1100, 1400', alt: media.alt }}
+                {%- endif -%}
+              {%- else -%}
+                {{ media | media_tag: image_size: '1400x' }}
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="ck-gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'ck-placeholder' }}</div>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.gallery_badge != blank -%}
+          <span class="ck-gallery__badge">{% render 'ck-icon', name: section.settings.gallery_badge_icon %}{{ section.settings.gallery_badge }}</span>
+        {%- endif -%}
+        {%- if p.media.size > 1 -%}
+          <button type="button" class="ck-gallery__arrow ck-gallery__arrow--prev" data-ck-prev aria-label="Previous image">&#8249;</button>
+          <button type="button" class="ck-gallery__arrow ck-gallery__arrow--next" data-ck-next aria-label="Next image">&#8250;</button>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.show_thumbs and p.media.size > 1 -%}
+        <div class="ck-gallery__thumbs">
+          {%- for media in p.media -%}
+            <button type="button" class="ck-gallery__thumb{% if forloop.first %} is-active{% endif %}" data-ck-thumb="{{ forloop.index0 }}" aria-label="Show image {{ forloop.index }}">
+              {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ---------- INFO / BUY BOX ---------- {%- endcomment -%}
+    <div class="ck-info{% if section.settings.sticky_info %} ck-info--sticky{% endif %}">
+      {%- form 'product', p, id: form_id, class: 'ck-form', novalidate: 'novalidate', data-ck-form: '' -%}
+        <input type="hidden" name="id" value="{{ current.id }}" data-ck-variant-input>
+        <input type="hidden" name="quantity" value="1" data-ck-qty-input>
+
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+
+            {%- when '@app' -%}
+              <div class="ck-b">{% render block %}</div>
+
+            {%- when 'rating' -%}
+              {%- liquid
+                assign r = block.settings.rating
+                assign rc = block.settings.count_text
+                assign show_r = true
+                if block.settings.use_metafields and p.metafields.reviews.rating.value != blank
+                  assign r = p.metafields.reviews.rating.value.rating | round: 1
+                  assign rc = p.metafields.reviews.rating_count.value | append: ' reviews'
+                elsif rc == blank
+                  assign show_r = false
+                endif
+              -%}
+              {%- if show_r -%}
+              <div class="ck-b ck-b--rating" {{ block.shopify_attributes }}>
+                {% render 'ck-stars', rating: r, size: 18, style: block.settings.star_style %}
+                <span>{% if block.settings.label != blank %}{{ block.settings.label }} {% endif %}<strong>{{ r }}</strong>{% if rc != blank %} · {{ rc }}{% endif %}</span>
+              </div>
+              {%- endif -%}
+
+            {%- when 'title' -%}
+              <div class="ck-b ck-b--title" {{ block.shopify_attributes }}>
+                <{{ htag }} class="ck-title">{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}{{ p.title | escape }}{% endif %}</{{ htag }}>
+              </div>
+
+            {%- when 'subtitle' -%}
+              <div class="ck-b ck-b--subtitle" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+            {%- when 'price' -%}
+              {%- liquid
+                assign save_pct = 0
+                assign save_amt = 0
+                if unit_compare > unit
+                  assign save_amt = unit_compare | minus: unit
+                  assign save_pct = save_amt | times: 100 | divided_by: unit_compare
+                endif
+              -%}
+              <div class="ck-b ck-b--price" {{ block.shopify_attributes }}>
+                <div class="ck-price">
+                  <span class="ck-price__now" data-ck-price>{{ unit | money }}</span>
+                  <s class="ck-price__was" data-ck-compare{% if save_amt == 0 %} hidden{% endif %}>{{ unit_compare | money }}</s>
+                  {%- if block.settings.show_save -%}
+                    <span class="ck-pill-save" data-ck-save data-format="{{ block.settings.save_format }}" data-label="{{ block.settings.save_label | escape }}"{% if save_amt == 0 %} hidden{% endif %}>
+                      {{ block.settings.save_label }} {% if block.settings.save_format == 'amount' %}{{ save_amt | money }}{% else %}{{ save_pct }}%{% endif %}
+                    </span>
+                  {%- endif -%}
+                </div>
+              </div>
+
+            {%- when 'benefits' -%}
+              {%- assign lines = block.settings.items | newline_to_br | split: '<br />' -%}
+              <div class="ck-b ck-b--benefits" {{ block.shopify_attributes }}>
+                <ul class="ck-benefits-list{% if block.settings.style == 'boxed' %} ck-benefits-list--boxed{% endif %}">
+                  {%- for line_raw in lines -%}
+                    {%- assign line = line_raw | strip -%}
+                    {%- if line != blank -%}
+                      {%- assign parts = line | split: '|' -%}
+                      <li>
+                        <span class="ck-bl-ico">{% render 'ck-icon', name: block.settings.icon %}</span>
+                        <span>{% if parts.size > 1 %}<strong>{{ parts[0] }}</strong> {{ parts[1] }}{% else %}{{ line }}{% endif %}</span>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+
+            {%- when 'highlight' -%}
+              <div class="ck-b ck-highlight" {{ block.shopify_attributes }}>
+                {% render 'ck-icon', name: block.settings.icon %}<span>{{ block.settings.text }}</span>
+              </div>
+
+            {%- when 'social_proof' -%}
+              <div class="ck-b ck-social" {{ block.shopify_attributes }}>
+                <span class="ck-social__faces">
+                  {%- if block.settings.avatar_1 != blank -%}{{ block.settings.avatar_1 | image_url: width: 80 | image_tag: alt: '' }}{%- endif -%}
+                  {%- if block.settings.avatar_2 != blank -%}{{ block.settings.avatar_2 | image_url: width: 80 | image_tag: alt: '' }}{%- endif -%}
+                  {%- if block.settings.avatar_3 != blank -%}{{ block.settings.avatar_3 | image_url: width: 80 | image_tag: alt: '' }}{%- endif -%}
+                </span>
+                <span>{{ block.settings.text }}</span>
+              </div>
+
+            {%- when 'variant_picker' -%}
+              {%- unless p.has_only_default_variant -%}
+                <div class="ck-b ck-b--variants" {{ block.shopify_attributes }}>
+                  {%- for option in p.options_with_values -%}
+                    {%- assign oi = forloop.index0 -%}
+                    {%- assign hidden_opt = false -%}
+                    {%- if block.settings.hide_option != blank and option.name == block.settings.hide_option -%}{%- assign hidden_opt = true -%}{%- endif -%}
+                    <fieldset class="ck-option" data-ck-option-group="{{ oi }}"{% if hidden_opt %} hidden{% endif %}>
+                      <legend>{{ option.name }}: <span data-ck-option-label>{{ option.selected_value }}</span></legend>
+                      <div class="ck-pills">
+                        {%- for value in option.values -%}
+                          <label class="ck-pill">
+                            <input type="radio" name="ck-opt-{{ section.id }}-{{ oi }}" value="{{ value | escape }}" data-ck-option="{{ oi }}"{% if option.selected_value == value %} checked{% endif %}>
+                            <span>{{ value }}</span>
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {%- endfor -%}
+                </div>
+              {%- endunless -%}
+
+            {%- when 'bundles' -%}
+              {%- assign bs = block.settings -%}
+              <div class="ck-b ck-b--bundles" {{ block.shopify_attributes }}>
+                {%- if bs.heading != blank -%}<div class="ck-bundles__head">{{ bs.heading }}</div>{%- endif -%}
+                <div class="ck-tiers{% if bs.layout == 'grid' %} ck-tiers--grid{% endif %}" role="radiogroup" aria-label="{{ bs.heading | default: 'Choose a bundle' | escape }}">
+                  {%- for i in (1..4) -%}
+                    {%- liquid
+                      assign k = 'tier' | append: i
+                      assign k_en = k | append: '_enabled'
+                      assign k_title = k | append: '_title'
+                      assign k_qty = k | append: '_qty'
+                      assign k_free = k | append: '_free'
+                      assign k_disc = k | append: '_discount'
+                      assign k_badge = k | append: '_badge'
+                      assign k_note = k | append: '_note'
+                      assign k_gift = k | append: '_gift'
+                      assign k_perks = k | append: '_perks'
+                      assign k_var = k | append: '_variant'
+                      assign t_en = bs[k_en]
+                    -%}
+                    {%- if t_en -%}
+                      {%- liquid
+                        assign t_title = bs[k_title]
+                        assign t_qty = bs[k_qty]
+                        assign t_free = bs[k_free]
+                        assign t_disc = bs[k_disc]
+                        assign t_badge = bs[k_badge]
+                        assign t_note = bs[k_note]
+                        assign t_gift = bs[k_gift]
+                        assign t_perks = bs[k_perks]
+                        assign t_vname = bs[k_var] | strip
+                        assign t_vid = ''
+                        assign base = current
+                        if t_vname != blank
+                          for v in p.variants
+                            if v.title == t_vname
+                              assign base = v
+                              assign t_vid = v.id
+                            endif
+                          endfor
+                        endif
+                        assign b_price = base.price
+                        assign b_cmp = base.compare_at_price | default: 0
+                        if b_cmp < b_price
+                          assign b_cmp = b_price
+                        endif
+                        if t_vid != ''
+                          assign submit_qty = 1
+                          assign t_total = b_price
+                          assign t_compare = b_cmp
+                        else
+                          assign submit_qty = t_qty
+                          assign paid = t_qty | minus: t_free
+                          if paid < 0
+                            assign paid = 0
+                          endif
+                          assign keep = 100 | minus: t_disc
+                          assign t_total = b_price | times: paid | times: keep | divided_by: 100
+                          assign t_compare = b_cmp | times: t_qty
+                        endif
+                        assign t_unit = t_total | divided_by: t_qty
+                        assign t_save = 0
+                        if t_compare > t_total
+                          assign t_save = t_compare | minus: t_total | times: 100 | divided_by: t_compare
+                        endif
+                        assign pct_html = '<span data-ck-tier-pct>' | append: t_save | append: '</span>'
+                        assign save_txt = bs.save_text | replace: '[percent]', pct_html
+                        assign selected = false
+                        if i == bs.default_tier
+                          assign selected = true
+                        endif
+                        assign t_img = base.featured_image | default: p.featured_image
+                      -%}
+                      <label class="ck-tier{% if selected %} is-selected{% endif %}" data-ck-tier data-qty="{{ submit_qty }}" data-display-qty="{{ t_qty }}" data-free="{{ t_free }}" data-disc="{{ t_disc }}" data-variant="{{ t_vid }}">
+                        <input type="radio" name="ck-tier-{{ section.id }}" value="{{ i }}"{% if selected %} checked{% endif %}>
+                        {%- if t_badge != blank -%}<span class="ck-tier__badge">{{ t_badge }}</span>{%- endif -%}
+                        <span class="ck-tier__row">
+                          <span class="ck-tier__radio"></span>
+                          {%- if bs.show_images and t_img != blank -%}
+                            <span class="ck-tier__img">{{ t_img | image_url: width: 140 | image_tag: loading: 'lazy', alt: '' }}{% if t_qty > 1 %}<span class="ck-tier__qty">x{{ t_qty }}</span>{% endif %}</span>
+                          {%- endif -%}
+                          <span class="ck-tier__body">
+                            <span class="ck-tier__title">{{ t_title }}{% if t_save > 0 and bs.save_text != blank %} <span class="ck-tier__save" data-ck-tier-savepill>{{ save_txt }}</span>{% endif %}</span>
+                            {%- if t_note != blank -%}<span class="ck-tier__note">{{ t_note }}</span>{%- endif -%}
+                            {%- if t_gift != blank -%}<span class="ck-tier__gift">{% render 'ck-icon', name: 'gift' %}{{ t_gift }}</span>{%- endif -%}
+                          </span>
+                          <span class="ck-tier__price">
+                            {%- if bs.price_display == 'unit' -%}
+                              <span class="ck-tier__main"><span data-ck-tier-unit>{{ t_unit | money }}</span><small>{{ bs.unit_label }}</small></span>
+                              <s class="ck-tier__compare" data-ck-tier-compare>{% if t_compare > t_total %}{{ t_compare | money }}{% endif %}</s>
+                              <span class="ck-tier__secondary" data-ck-tier-total>{{ t_total | money }}</span>
+                            {%- else -%}
+                              <span class="ck-tier__main" data-ck-tier-total>{{ t_total | money }}</span>
+                              <s class="ck-tier__compare" data-ck-tier-compare>{% if t_compare > t_total %}{{ t_compare | money }}{% endif %}</s>
+                              {%- if t_qty > 1 -%}<span class="ck-tier__secondary"><span data-ck-tier-unit>{{ t_unit | money }}</span>{{ bs.unit_label }}</span>{%- endif -%}
+                            {%- endif -%}
+                          </span>
+                        </span>
+                        {%- if t_perks != blank -%}
+                          {%- assign perk_lines = t_perks | newline_to_br | split: '<br />' -%}
+                          <ul class="ck-tier__perks">
+                            {%- for perk_raw in perk_lines -%}
+                              {%- assign perk = perk_raw | strip -%}
+                              {%- if perk != blank -%}<li>{% render 'ck-icon', name: 'check' %}{{ perk }}</li>{%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </label>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+
+            {%- when 'stock' -%}
+              {%- liquid
+                assign inv = current.inventory_quantity
+                assign low = false
+                if current.inventory_management == 'shopify' and current.inventory_policy == 'deny' and inv > 0 and inv <= block.settings.threshold
+                  assign low = true
+                endif
+              -%}
+              {%- if low or block.settings.fallback_text != blank -%}
+                <div class="ck-b ck-stock{% if low %} ck-stock--low{% endif %}" {{ block.shopify_attributes }}>
+                  <span class="ck-stock__dot"></span>
+                  <span>{% if low %}{{ block.settings.low_text | replace: '[count]', inv }}{% else %}{{ block.settings.fallback_text }}{% endif %}</span>
+                </div>
+              {%- endif -%}
+
+            {%- when 'delivery' -%}
+              <div class="ck-b ck-delivery" {{ block.shopify_attributes }} data-ck-delivery data-min="{{ block.settings.min_days }}" data-max="{{ block.settings.max_days }}" data-skip-weekends="{{ block.settings.skip_weekends }}" data-template="{{ block.settings.text | escape }}">
+                {% render 'ck-icon', name: block.settings.icon %}
+                <span data-ck-delivery-text>Ships to you in {{ block.settings.min_days }}–{{ block.settings.max_days }} business days</span>
+              </div>
+
+            {%- when 'countdown' -%}
+              {%- if block.settings.end != blank -%}
+                <div class="ck-b ck-countdown" {{ block.shopify_attributes }} data-ck-countdown data-end="{{ block.settings.end | escape }}" hidden>
+                  <span>{{ block.settings.label }}</span>
+                  <span class="ck-countdown__time"><span data-d>00</span><span data-h>00</span><span data-m>00</span><span data-s>00</span></span>
+                </div>
+              {%- endif -%}
+
+            {%- when 'buy_buttons' -%}
+              <div class="ck-b ck-b--buy" {{ block.shopify_attributes }}>
+                <button
+                  type="submit"
+                  name="add"
+                  class="ck-btn ck-btn--block ck-atc{% if block.settings.pulse %} ck-atc--pulse{% endif %}"
+                  data-ck-atc
+                  data-label="{{ block.settings.label | escape }}"
+                  data-soldout="{{ block.settings.soldout_label | escape }}"
+                  {% unless current.available %}disabled{% endunless %}
+                >
+                  <span data-ck-atc-text>{% if current.available %}{{ block.settings.label }}{% else %}{{ block.settings.soldout_label }}{% endif %}</span>
+                  {%- if block.settings.show_price -%}<span class="ck-atc__price" data-ck-atc-price>· {{ unit | money }}</span>{%- endif -%}
+                </button>
+                <p class="ck-atc__error" data-ck-error role="alert" hidden></p>
+                {%- if block.settings.show_dynamic_checkout -%}<div class="ck-dyn">{{ form | payment_button }}</div>{%- endif -%}
+                {%- if block.settings.subtext != blank -%}<p class="ck-atc__sub">{% render 'ck-icon', name: block.settings.sub_icon %}{{ block.settings.subtext }}</p>{%- endif -%}
+              </div>
+
+            {%- when 'guarantees' -%}
+              {%- assign g_lines = block.settings.items | newline_to_br | split: '<br />' -%}
+              <div class="ck-b ck-guarantees" {{ block.shopify_attributes }}>
+                {%- for line_raw in g_lines -%}
+                  {%- assign line = line_raw | strip -%}
+                  {%- if line != blank -%}
+                    {%- assign g = line | split: '|' -%}
+                    <div>{% render 'ck-icon', name: g[0] %}<strong>{{ g[1] }}</strong>{% if g[2] != blank %}<span>{{ g[2] }}</span>{% endif %}</div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+
+            {%- when 'payment_icons' -%}
+              <div class="ck-b" {{ block.shopify_attributes }}>
+                {%- if block.settings.label != blank -%}<p class="ck-atc__sub" style="margin:0 0 8px">{% render 'ck-icon', name: 'lock' %}{{ block.settings.label }}</p>{%- endif -%}
+                <div class="ck-pay">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag }}{%- endfor -%}</div>
+              </div>
+
+            {%- when 'review' -%}
+              <div class="ck-b ck-review-card" {{ block.shopify_attributes }}>
+                {%- if block.settings.is_placeholder -%}<span class="ck-review__tag">Placeholder: replace with a real review</span>{%- endif -%}
+                <div class="ck-review-card__top">
+                  {%- if block.settings.avatar != blank -%}
+                    {{ block.settings.avatar | image_url: width: 96 | image_tag: class: 'ck-review-card__avatar', alt: block.settings.name }}
+                  {%- else -%}
+                    <span class="ck-review-card__avatar">{{ block.settings.name | slice: 0 }}</span>
+                  {%- endif -%}
+                  <div>
+                    <div class="ck-review-card__name">{{ block.settings.name }}{% if block.settings.verified %} <span class="ck-verified">{% render 'ck-icon', name: 'check' %}Verified buyer</span>{% endif %}</div>
+                    {% render 'ck-stars', rating: block.settings.rating, size: 15 %}
+                  </div>
+                </div>
+                <p class="ck-review-card__text">{{ block.settings.text }}</p>
+              </div>
+
+            {%- when 'accordion' -%}
+              <div class="ck-b ck-b--accordion" {{ block.shopify_attributes }}>
+                <details class="ck-accordion{% if block.settings.first %} ck-accordion--first{% endif %}"{% if block.settings.open %} open{% endif %}>
+                  <summary>{% render 'ck-icon', name: block.settings.icon %}{{ block.settings.title }}</summary>
+                  <div class="ck-accordion__body">
+                    {%- if block.settings.use_description -%}{{ p.description }}{%- else -%}{{ block.settings.content }}{%- endif -%}
+                  </div>
+                </details>
+              </div>
+
+            {%- when 'upsell' -%}
+              {%- assign up = block.settings.product -%}
+              {%- if up != blank and up.available and up.id != p.id -%}
+                {%- assign upv = up.selected_or_first_available_variant -%}
+                <div class="ck-b" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}<p class="ck-upsell-title">{{ block.settings.heading }}</p>{%- endif -%}
+                  <label class="ck-upsell">
+                    <input type="checkbox" value="{{ upv.id }}" data-ck-upsell data-price="{{ upv.price }}"{% if block.settings.checked %} checked{% endif %}>
+                    {%- if up.featured_image != blank -%}{{ up.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+                    <span class="ck-upsell__body"><strong>{{ block.settings.label | default: up.title }}</strong>{% if block.settings.subtext != blank %}<span class="ck-muted">{{ block.settings.subtext }}</span>{% endif %}</span>
+                    <span class="ck-upsell__price">{{ upv.price | money }}{% if upv.compare_at_price > upv.price %}<s>{{ upv.compare_at_price | money }}</s>{% endif %}</span>
+                  </label>
+                </div>
+              {%- endif -%}
+
+            {%- when 'notice' -%}
+              <div class="ck-b ck-notice" {{ block.shopify_attributes }}>{% render 'ck-icon', name: block.settings.icon %}<span>{{ block.settings.text }}</span></div>
+
+            {%- when 'text' -%}
+              <div class="ck-b" style="text-align: {{ block.settings.align }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+            {%- when 'custom_liquid' -%}
+              <div class="ck-b" {{ block.shopify_attributes }}>{{ block.settings.liquid }}</div>
+
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ p.title | json }},
+  "url": {{ request.origin | append: p.url | json }},
+  {%- if p.featured_image != blank %}
+  "image": [{{ p.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],
+  {%- endif %}
+  "description": {{ p.description | strip_html | truncate: 500 | json }},
+  "brand": { "@type": "Brand", "name": {{ p.vendor | json }} },
+  {%- if p.metafields.reviews.rating.value != blank %}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ p.metafields.reviews.rating.value.rating | json }},
+    "reviewCount": {{ p.metafields.reviews.rating_count.value | json }}
+  },
+  {%- endif %}
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "price": {{ current.price | divided_by: 100.0 | json }},
+    "availability": "https://schema.org/{% if current.available %}InStock{% else %}OutOfStock{% endif %}",
+    "url": {{ request.origin | append: p.url | json }}
+  }
+}
+</script>
+{%- else -%}
+  <div class="ck ck-container" style="text-align:center;padding:40px 20px">Pick a product in the section settings to show the CK Product section.</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "CK Product",
+  "tag": "div",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "Leave empty on product pages. Pick one to use this section on the home page or a landing page." },
+    { "type": "select", "id": "gallery_side", "label": "Gallery position (desktop)", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }
+    ] },
+    { "type": "checkbox", "id": "show_thumbs", "label": "Show thumbnails", "default": true },
+    { "type": "text", "id": "gallery_badge", "label": "Badge on main image", "info": "Example: #1 Best Seller. Only if it is true." },
+    { "type": "select", "id": "gallery_badge_icon", "label": "Badge icon", "default": "award", "options": [
+      { "value": "none", "label": "None" }, { "value": "award", "label": "Award" }, { "value": "star", "label": "Star" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "heart", "label": "Heart" }, { "value": "bolt", "label": "Bolt" }, { "value": "shield", "label": "Shield" }, { "value": "leaf", "label": "Leaf" }
+    ] },
+    { "type": "checkbox", "id": "sticky_info", "label": "Sticky buy box on desktop", "default": true },
+    { "type": "select", "id": "after_add", "label": "After add to cart", "default": "drawer", "options": [
+      { "value": "drawer", "label": "Open cart drawer" },
+      { "value": "cart", "label": "Go to cart page" },
+      { "value": "checkout", "label": "Go straight to checkout" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "rating", "name": "Star rating", "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "use_metafields", "label": "Use review-app rating when available", "default": true, "info": "Judge.me, Loox, Okendo and Shopify Product Reviews fill the reviews.rating metafield." },
+        { "type": "range", "id": "rating", "label": "Fallback rating", "min": 3, "max": 5, "step": 0.1, "default": 4.8 },
+        { "type": "text", "id": "count_text", "label": "Fallback count text", "info": "Leave empty to hide the stars until your review app has real reviews." },
+        { "type": "text", "id": "label", "label": "Label before score", "default": "Rated" },
+        { "type": "select", "id": "star_style", "label": "Star style", "default": "default", "options": [
+          { "value": "default", "label": "Classic" }, { "value": "boxed", "label": "Boxed" }
+        ] }
+      ]
+    },
+    {
+      "type": "title", "name": "Title", "limit": 1,
+      "settings": [ { "type": "text", "id": "title", "label": "Custom title", "info": "Leave empty to use the product title." } ]
+    },
+    {
+      "type": "subtitle", "name": "Hook line",
+      "settings": [ { "type": "inline_richtext", "id": "text", "label": "Text", "default": "<strong>One-line promise</strong> that matches your ad." } ]
+    },
+    {
+      "type": "price", "name": "Price", "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_save", "label": "Show savings badge", "default": true },
+        { "type": "select", "id": "save_format", "label": "Savings format", "default": "percent", "options": [
+          { "value": "percent", "label": "Percent" }, { "value": "amount", "label": "Amount" }
+        ] },
+        { "type": "text", "id": "save_label", "label": "Savings label", "default": "Save" }
+      ]
+    },
+    {
+      "type": "benefits", "name": "Benefit bullets",
+      "settings": [
+        { "type": "textarea", "id": "items", "label": "Bullets (one per line)", "info": "Use Bold part|rest of line to bold the start.", "default": "Main benefit|in plain words\nSecond benefit|that removes a worry\nThird benefit|that proves it works" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "check", "options": [
+          { "value": "check", "label": "Check" }, { "value": "star", "label": "Star" }, { "value": "heart", "label": "Heart" }, { "value": "bolt", "label": "Bolt" }, { "value": "leaf", "label": "Leaf" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "paw", "label": "Paw" }, { "value": "arrow", "label": "Arrow" }
+        ] },
+        { "type": "select", "id": "style", "label": "Style", "default": "plain", "options": [
+          { "value": "plain", "label": "Plain" }, { "value": "boxed", "label": "Boxed" }
+        ] }
+      ]
+    },
+    {
+      "type": "highlight", "name": "Highlight line",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "gift", "options": [
+          { "value": "gift", "label": "Gift" }, { "value": "truck", "label": "Truck" }, { "value": "percent", "label": "Percent" }, { "value": "bolt", "label": "Bolt" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "clock", "label": "Clock" }
+        ] },
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Free shipping on orders over $50" }
+      ]
+    },
+    {
+      "type": "social_proof", "name": "Social proof line",
+      "settings": [
+        { "type": "image_picker", "id": "avatar_1", "label": "Face 1" },
+        { "type": "image_picker", "id": "avatar_2", "label": "Face 2" },
+        { "type": "image_picker", "id": "avatar_3", "label": "Face 3" },
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Loved by <strong>10,000+</strong> customers" }
+      ]
+    },
+    {
+      "type": "variant_picker", "name": "Variant picker", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "hide_option", "label": "Hide this option name", "info": "If bundles use pack-size variants (e.g. option 'Pack'), hide that option here." }
+      ]
+    },
+    {
+      "type": "bundles", "name": "Bundles (qty breaks)", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Quantity mode: a tier adds Qty units at (Qty − Free) × price × (100 − Discount)%. Create matching automatic discounts in Shopify so checkout matches. Variant mode: type a variant title and that variant is added instead." },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Bundle & save" },
+        { "type": "select", "id": "layout", "label": "Layout", "default": "stack", "options": [
+          { "value": "stack", "label": "Stacked rows" }, { "value": "grid", "label": "Side-by-side cards" }
+        ] },
+        { "type": "range", "id": "default_tier", "label": "Pre-selected tier", "min": 1, "max": 4, "step": 1, "default": 2 },
+        { "type": "select", "id": "price_display", "label": "Big price shows", "default": "total", "options": [
+          { "value": "total", "label": "Bundle total" }, { "value": "unit", "label": "Price per unit" }
+        ] },
+        { "type": "text", "id": "unit_label", "label": "Per-unit label", "default": "/each" },
+        { "type": "text", "id": "save_text", "label": "Savings pill text", "default": "Save [percent]%", "info": "[percent] becomes the real saving." },
+        { "type": "checkbox", "id": "show_images", "label": "Show product image on each tier", "default": true },
+        { "type": "header", "content": "Tier 1" },
+        { "type": "checkbox", "id": "tier1_enabled", "label": "Show tier 1", "default": true },
+        { "type": "text", "id": "tier1_title", "label": "Title", "default": "Buy 1" },
+        { "type": "range", "id": "tier1_qty", "label": "Quantity", "min": 1, "max": 10, "step": 1, "default": 1 },
+        { "type": "range", "id": "tier1_free", "label": "Free units included", "min": 0, "max": 5, "step": 1, "default": 0 },
+        { "type": "range", "id": "tier1_discount", "label": "Extra discount %", "min": 0, "max": 80, "step": 1, "default": 0 },
+        { "type": "text", "id": "tier1_badge", "label": "Badge" },
+        { "type": "text", "id": "tier1_note", "label": "Small note" },
+        { "type": "text", "id": "tier1_gift", "label": "Free gift line" },
+        { "type": "textarea", "id": "tier1_perks", "label": "Perks when selected (one per line)" },
+        { "type": "text", "id": "tier1_variant", "label": "Variant title (variant mode)" },
+        { "type": "header", "content": "Tier 2" },
+        { "type": "checkbox", "id": "tier2_enabled", "label": "Show tier 2", "default": true },
+        { "type": "text", "id": "tier2_title", "label": "Title", "default": "Buy 2, Get 1 Free" },
+        { "type": "range", "id": "tier2_qty", "label": "Quantity", "min": 1, "max": 10, "step": 1, "default": 3 },
+        { "type": "range", "id": "tier2_free", "label": "Free units included", "min": 0, "max": 5, "step": 1, "default": 1 },
+        { "type": "range", "id": "tier2_discount", "label": "Extra discount %", "min": 0, "max": 80, "step": 1, "default": 0 },
+        { "type": "text", "id": "tier2_badge", "label": "Badge", "default": "Most popular" },
+        { "type": "text", "id": "tier2_note", "label": "Small note" },
+        { "type": "text", "id": "tier2_gift", "label": "Free gift line" },
+        { "type": "textarea", "id": "tier2_perks", "label": "Perks when selected (one per line)" },
+        { "type": "text", "id": "tier2_variant", "label": "Variant title (variant mode)" },
+        { "type": "header", "content": "Tier 3" },
+        { "type": "checkbox", "id": "tier3_enabled", "label": "Show tier 3", "default": true },
+        { "type": "text", "id": "tier3_title", "label": "Title", "default": "Buy 3, Get 2 Free" },
+        { "type": "range", "id": "tier3_qty", "label": "Quantity", "min": 1, "max": 10, "step": 1, "default": 5 },
+        { "type": "range", "id": "tier3_free", "label": "Free units included", "min": 0, "max": 5, "step": 1, "default": 2 },
+        { "type": "range", "id": "tier3_discount", "label": "Extra discount %", "min": 0, "max": 80, "step": 1, "default": 0 },
+        { "type": "text", "id": "tier3_badge", "label": "Badge", "default": "Best value" },
+        { "type": "text", "id": "tier3_note", "label": "Small note" },
+        { "type": "text", "id": "tier3_gift", "label": "Free gift line" },
+        { "type": "textarea", "id": "tier3_perks", "label": "Perks when selected (one per line)" },
+        { "type": "text", "id": "tier3_variant", "label": "Variant title (variant mode)" },
+        { "type": "header", "content": "Tier 4" },
+        { "type": "checkbox", "id": "tier4_enabled", "label": "Show tier 4", "default": false },
+        { "type": "text", "id": "tier4_title", "label": "Title", "default": "Buy 4" },
+        { "type": "range", "id": "tier4_qty", "label": "Quantity", "min": 1, "max": 10, "step": 1, "default": 4 },
+        { "type": "range", "id": "tier4_free", "label": "Free units included", "min": 0, "max": 5, "step": 1, "default": 0 },
+        { "type": "range", "id": "tier4_discount", "label": "Extra discount %", "min": 0, "max": 80, "step": 1, "default": 40 },
+        { "type": "text", "id": "tier4_badge", "label": "Badge" },
+        { "type": "text", "id": "tier4_note", "label": "Small note" },
+        { "type": "text", "id": "tier4_gift", "label": "Free gift line" },
+        { "type": "textarea", "id": "tier4_perks", "label": "Perks when selected (one per line)" },
+        { "type": "text", "id": "tier4_variant", "label": "Variant title (variant mode)" }
+      ]
+    },
+    {
+      "type": "stock", "name": "Stock status", "limit": 1,
+      "settings": [
+        { "type": "range", "id": "threshold", "label": "Show low-stock under", "min": 1, "max": 50, "step": 1, "default": 10, "info": "Uses real Shopify inventory. Only shows when inventory is tracked." },
+        { "type": "text", "id": "low_text", "label": "Low stock text", "default": "Only [count] left in stock" },
+        { "type": "text", "id": "fallback_text", "label": "Normal text", "default": "In stock, ready to ship" }
+      ]
+    },
+    {
+      "type": "delivery", "name": "Delivery estimate", "limit": 1,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+          { "value": "truck", "label": "Truck" }, { "value": "box", "label": "Box" }, { "value": "clock", "label": "Clock" }, { "value": "globe", "label": "Globe" }
+        ] },
+        { "type": "text", "id": "text", "label": "Text", "default": "Order today, get it <strong>[start] – [end]</strong>", "info": "[start] and [end] become real dates." },
+        { "type": "range", "id": "min_days", "label": "Min business days", "min": 1, "max": 30, "step": 1, "default": 5 },
+        { "type": "range", "id": "max_days", "label": "Max business days", "min": 1, "max": 45, "step": 1, "default": 9 },
+        { "type": "checkbox", "id": "skip_weekends", "label": "Skip weekends", "default": true }
+      ]
+    },
+    {
+      "type": "countdown", "name": "Sale countdown", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "end", "label": "Sale ends (YYYY-MM-DD HH:MM)", "info": "Must be a real end date. The timer hides itself once it passes." },
+        { "type": "text", "id": "label", "label": "Label", "default": "Sale ends in" }
+      ]
+    },
+    {
+      "type": "buy_buttons", "name": "Add to cart", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Button text", "default": "Add to cart" },
+        { "type": "text", "id": "soldout_label", "label": "Sold out text", "default": "Sold out" },
+        { "type": "checkbox", "id": "show_price", "label": "Show bundle price on button", "default": true },
+        { "type": "checkbox", "id": "pulse", "label": "Pulse animation", "default": false },
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show Shop Pay / express button", "default": false },
+        { "type": "text", "id": "subtext", "label": "Text under button", "default": "30-day money-back guarantee" },
+        { "type": "select", "id": "sub_icon", "label": "Icon under button", "default": "shield", "options": [
+          { "value": "none", "label": "None" }, { "value": "shield", "label": "Shield" }, { "value": "truck", "label": "Truck" }, { "value": "lock", "label": "Lock" }, { "value": "return", "label": "Return" }
+        ] }
+      ]
+    },
+    {
+      "type": "guarantees", "name": "Guarantee badges",
+      "settings": [
+        { "type": "textarea", "id": "items", "label": "Badges (icon|title|subtitle, one per line)", "info": "Icons: truck, shield, return, lock, clock, gift, award, leaf, heart, star, flask, globe, users, box", "default": "truck|Free shipping|On orders $50+\nreturn|30-day returns|Hassle free\nshield|Secure checkout|SSL encrypted" }
+      ]
+    },
+    {
+      "type": "payment_icons", "name": "Payment icons", "limit": 1,
+      "settings": [ { "type": "text", "id": "label", "label": "Label", "default": "Secure checkout" } ]
+    },
+    {
+      "type": "review", "name": "Featured review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Review text (paste a real review)" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Customer" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true },
+        { "type": "image_picker", "id": "avatar", "label": "Photo" },
+        { "type": "checkbox", "id": "is_placeholder", "label": "Mark as placeholder", "default": false }
+      ]
+    },
+    {
+      "type": "accordion", "name": "Accordion",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Description" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "none", "options": [
+          { "value": "none", "label": "None" }, { "value": "box", "label": "Box" }, { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" }, { "value": "leaf", "label": "Leaf" }, { "value": "flask", "label": "Flask" }, { "value": "chat", "label": "Chat" }, { "value": "sparkles", "label": "Sparkles" }
+        ] },
+        { "type": "checkbox", "id": "use_description", "label": "Show product description", "default": false },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false },
+        { "type": "checkbox", "id": "first", "label": "Top border (first accordion)", "default": false }
+      ]
+    },
+    {
+      "type": "upsell", "name": "Add-on upsell",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently bought together" },
+        { "type": "product", "id": "product", "label": "Add-on product" },
+        { "type": "text", "id": "label", "label": "Custom name" },
+        { "type": "text", "id": "subtext", "label": "Small text" },
+        { "type": "checkbox", "id": "checked", "label": "Pre-ticked", "default": false }
+      ]
+    },
+    {
+      "type": "notice", "name": "Notice",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "clock", "options": [
+          { "value": "clock", "label": "Clock" }, { "value": "truck", "label": "Truck" }, { "value": "gift", "label": "Gift" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "chat", "label": "Chat" }
+        ] },
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Ships from our US warehouse" }
+      ]
+    },
+    {
+      "type": "text", "name": "Text",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add any text here.</p>" },
+        { "type": "select", "id": "align", "label": "Alignment", "default": "left", "options": [
+          { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }
+        ] }
+      ]
+    },
+    {
+      "type": "custom_liquid", "name": "Custom Liquid",
+      "settings": [ { "type": "liquid", "id": "liquid", "label": "Liquid" } ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CK Product",
+      "blocks": [
+        { "type": "rating" },
+        { "type": "title" },
+        { "type": "subtitle" },
+        { "type": "benefits" },
+        { "type": "bundles" },
+        { "type": "buy_buttons" },
+        { "type": "guarantees" },
+        { "type": "payment_icons" },
+        { "type": "accordion", "settings": { "title": "Description", "use_description": true, "first": true, "icon": "box" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

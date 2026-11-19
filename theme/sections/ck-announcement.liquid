@@ -1,0 +1,36 @@
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+<div class="ck-announce" style="--ck-a-bg: {{ section.settings.bg }}; --ck-a-text: {{ section.settings.color }};">
+  <div class="ck-announce__in" data-ck-rotator data-speed="{{ section.settings.speed }}">
+    {%- for block in section.blocks -%}
+      <div class="ck-announce__msg{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.text }}</a>{%- else -%}{{ block.settings.text }}{%- endif -%}
+      </div>
+    {%- endfor -%}
+    {%- if section.blocks.size > 1 -%}
+      <button type="button" class="ck-announce__nav ck-announce__nav--prev" data-ck-a-prev aria-label="Previous message">&#8249;</button>
+      <button type="button" class="ck-announce__nav ck-announce__nav--next" data-ck-a-next aria-label="Next message">&#8250;</button>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CK Announcement",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background", "default": "#111827" },
+    { "type": "color", "id": "color", "label": "Text", "default": "#ffffff" },
+    { "type": "range", "id": "speed", "label": "Seconds per message", "min": 2, "max": 10, "step": 1, "default": 4 }
+  ],
+  "blocks": [
+    {
+      "type": "message", "name": "Message",
+      "settings": [
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Free shipping on orders over $50" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Announcement", "blocks": [ { "type": "message" }, { "type": "message", "settings": { "text": "30-day money-back guarantee" } } ] } ]
+}
+{% endschema %}

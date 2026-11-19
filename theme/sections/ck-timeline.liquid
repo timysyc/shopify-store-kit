@@ -1,0 +1,52 @@
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+<section class="ck ck--{{ section.settings.scheme }} ck-timeline-sec" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    {% render 'ck-head', s: section.settings %}
+    <div class="ck-timeline">
+      {%- for block in section.blocks -%}
+        <div class="ck-tl ck-reveal" {{ block.shopify_attributes }}>
+          <span class="ck-tl__dot">{% if block.settings.icon != 'none' %}{% render 'ck-icon', name: block.settings.icon %}{% else %}{{ forloop.index }}{% endif %}</span>
+          <div class="ck-tl__card">
+            {%- if block.settings.label != blank -%}<div class="ck-tl__label">{{ block.settings.label }}</div>{%- endif -%}
+            <h3 class="ck-h ck-h3">{{ block.settings.title }}</h3>
+            <div>{{ block.settings.text }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.footnote != blank -%}<p class="ck-footnote">{{ section.settings.footnote }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Timeline",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "What to <em>expect</em>" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "Everyone is different. Results vary." },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "default", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "step", "name": "Step",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon (none = number)", "default": "none", "options": [
+          { "value": "none", "label": "Number" }, { "value": "box", "label": "Box" }, { "value": "truck", "label": "Truck" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "heart", "label": "Heart" }, { "value": "star", "label": "Star" }, { "value": "clock", "label": "Clock" }, { "value": "sun", "label": "Sun" }, { "value": "moon", "label": "Moon" }, { "value": "smile", "label": "Smile" }
+        ] },
+        { "type": "text", "id": "label", "label": "Time label", "default": "Day 1" },
+        { "type": "text", "id": "title", "label": "Title", "default": "First use" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>What the customer notices at this point.</p>" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Timeline", "blocks": [ { "type": "step" }, { "type": "step", "settings": { "label": "Week 1" } }, { "type": "step", "settings": { "label": "Week 4" } } ] } ]
+}
+{% endschema %}

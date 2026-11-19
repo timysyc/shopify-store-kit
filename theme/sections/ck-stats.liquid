@@ -1,0 +1,52 @@
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+<section class="ck ck--{{ section.settings.scheme }} ck-stats-sec" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    {% render 'ck-head', s: section.settings %}
+    <div class="ck-stats-row{% if section.settings.image != blank %} ck-stats-row--media{% endif %}">
+      {%- if section.settings.image != blank -%}
+        <div class="ck-stats-row__media ck-reveal">{{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '500, 800, 1200' }}</div>
+      {%- endif -%}
+      <div class="ck-stats">
+        {%- for block in section.blocks -%}
+          <div class="ck-stat ck-reveal" {{ block.shopify_attributes }}>
+            <div class="ck-stat__num">{{ block.settings.prefix }}<span data-ck-count data-to="{{ block.settings.value }}">{{ block.settings.value }}</span>{{ block.settings.suffix }}</div>
+            <div class="ck-stat__label">{{ block.settings.label }}</div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    {%- if section.settings.footnote != blank -%}<p class="ck-footnote">{{ section.settings.footnote }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Stats",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "The numbers <em>speak</em>" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+    { "type": "text", "id": "footnote", "label": "Source / footnote", "info": "Say where each number comes from, e.g. 'Survey of 214 customers, Oct 2026'." },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "primary", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "stat", "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "prefix", "label": "Before number" },
+        { "type": "text", "id": "value", "label": "Number", "default": "97" },
+        { "type": "text", "id": "suffix", "label": "After number", "default": "%" },
+        { "type": "text", "id": "label", "label": "Label", "default": "say they would buy again" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Stats", "blocks": [ { "type": "stat" }, { "type": "stat" }, { "type": "stat" } ] } ]
+}
+{% endschema %}

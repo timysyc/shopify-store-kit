@@ -1,0 +1,106 @@
+{%- comment -%}
+  CK Brand — invisible section. Put it FIRST on every template that uses ck-* sections.
+  It sets the colours, fonts and corner radius that every ck-* section reads.
+{%- endcomment -%}
+{%- liquid
+  assign hf = section.settings.heading_font
+  assign bf = section.settings.body_font
+  assign bf_bold = bf | font_modify: 'weight', 'bold'
+  assign hf_bold = hf | font_modify: 'weight', 'bold'
+  case section.settings.button_shape
+    when 'pill'
+      assign btn_radius = '999px'
+    when 'square'
+      assign btn_radius = '0px'
+    else
+      assign btn_radius = section.settings.radius | append: 'px'
+  endcase
+-%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+{% style %}
+  {{ hf | font_face: font_display: 'swap' }}
+  {{ hf_bold | font_face: font_display: 'swap' }}
+  {{ bf | font_face: font_display: 'swap' }}
+  {{ bf_bold | font_face: font_display: 'swap' }}
+  html:root {
+    --ck-primary: {{ section.settings.primary }};
+    --ck-primary-text: {{ section.settings.primary_text }};
+    --ck-button: {{ section.settings.button }};
+    --ck-button-text: {{ section.settings.button_text }};
+    --ck-accent: {{ section.settings.accent }};
+    --ck-accent-text: {{ section.settings.accent_text }};
+    --ck-accent-soft: {{ section.settings.accent_soft }};
+    --ck-bg: {{ section.settings.background }};
+    --ck-surface: {{ section.settings.surface }};
+    --ck-card: {{ section.settings.card }};
+    --ck-text: {{ section.settings.text }};
+    --ck-muted: {{ section.settings.muted }};
+    --ck-border: {{ section.settings.border }};
+    --ck-star: {{ section.settings.star }};
+    --ck-success: {{ section.settings.success }};
+    --ck-dark: {{ section.settings.dark }};
+    --ck-radius: {{ section.settings.radius }}px;
+    --ck-btn-radius: {{ btn_radius }};
+    --ck-font-heading: {{ hf.family }}, {{ hf.fallback_families }};
+    --ck-font-body: {{ bf.family }}, {{ bf.fallback_families }};
+    --ck-heading-weight: {{ section.settings.heading_weight }};
+    --ck-heading-case: {% if section.settings.uppercase_headings %}uppercase{% else %}none{% endif %};
+    --ck-heading-spacing: {% if section.settings.uppercase_headings %}0.01em{% else %}-0.015em{% endif %};
+    --ck-btn-case: {% if section.settings.uppercase_buttons %}uppercase{% else %}none{% endif %};
+  }
+  {%- if section.settings.apply_page_bg %}
+  body { background: {{ section.settings.background }}; }
+  {%- endif %}
+{% endstyle %}
+{%- if request.design_mode -%}
+  <div style="padding:10px 16px;font:600 13px/1.4 sans-serif;background:#fffbe6;color:#7a5b00;border:1px dashed #e0c25a;text-align:center">
+    CK Brand settings live here (colours, fonts, corners). This bar only shows in the theme editor.
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "CK Brand",
+  "class": "ck-brand-section",
+  "settings": [
+    { "type": "header", "content": "Core colours" },
+    { "type": "color", "id": "primary", "label": "Primary (brand)", "default": "#111827" },
+    { "type": "color", "id": "primary_text", "label": "Text on primary", "default": "#ffffff" },
+    { "type": "color", "id": "button", "label": "Buy button", "default": "#111827" },
+    { "type": "color", "id": "button_text", "label": "Buy button text", "default": "#ffffff" },
+    { "type": "color", "id": "accent", "label": "Accent (badges, highlights)", "default": "#ef4444" },
+    { "type": "color", "id": "accent_text", "label": "Text on accent", "default": "#ffffff" },
+    { "type": "color", "id": "accent_soft", "label": "Soft accent background", "default": "#fef2f2" },
+    { "type": "header", "content": "Neutrals" },
+    { "type": "color", "id": "background", "label": "Page background", "default": "#ffffff" },
+    { "type": "color", "id": "surface", "label": "Alternate section background", "default": "#f5f5f3" },
+    { "type": "color", "id": "card", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "text", "label": "Text", "default": "#111827" },
+    { "type": "color", "id": "muted", "label": "Muted text", "default": "#6b7280" },
+    { "type": "color", "id": "border", "label": "Borders", "default": "#e5e7eb" },
+    { "type": "color", "id": "star", "label": "Stars", "default": "#f5b301" },
+    { "type": "color", "id": "success", "label": "Success / savings", "default": "#15803d" },
+    { "type": "color", "id": "dark", "label": "Dark section background", "default": "#0d0d0f" },
+    { "type": "checkbox", "id": "apply_page_bg", "label": "Apply page background to whole page", "default": true },
+    { "type": "header", "content": "Typography" },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4" },
+    { "type": "select", "id": "heading_weight", "label": "Heading weight", "default": "700", "options": [
+      { "value": "500", "label": "Medium" },
+      { "value": "600", "label": "Semibold" },
+      { "value": "700", "label": "Bold" },
+      { "value": "800", "label": "Extra bold" }
+    ] },
+    { "type": "checkbox", "id": "uppercase_headings", "label": "Uppercase headings", "default": false },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4" },
+    { "type": "header", "content": "Shape" },
+    { "type": "range", "id": "radius", "label": "Corner radius", "min": 0, "max": 28, "step": 2, "unit": "px", "default": 14 },
+    { "type": "select", "id": "button_shape", "label": "Button shape", "default": "pill", "options": [
+      { "value": "pill", "label": "Pill" },
+      { "value": "rounded", "label": "Match corner radius" },
+      { "value": "square", "label": "Square" }
+    ] },
+    { "type": "checkbox", "id": "uppercase_buttons", "label": "Uppercase buttons", "default": true }
+  ],
+  "presets": [{ "name": "CK Brand" }]
+}
+{% endschema %}

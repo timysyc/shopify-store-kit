@@ -1,0 +1,32 @@
+{%- comment -%}
+  Free-shipping / free-gift progress bar for the cart drawer.
+  Install: in snippets/cart-drawer.liquid (Dawn), put {% render 'ck-cart-progress' %}
+  right above the <cart-drawer-items line. The zip script does this for you.
+
+  EDIT THESE TWO LINES (threshold is in cents: 5000 = $50.00):
+{%- endcomment -%}
+{%- liquid
+  assign ck_threshold = 5000
+  assign ck_reward = 'FREE shipping'
+-%}
+{%- if cart.item_count > 0 -%}
+  {%- liquid
+    assign ck_total = cart.total_price
+    assign ck_left = ck_threshold | minus: ck_total
+    assign ck_pct = ck_total | times: 100 | divided_by: ck_threshold
+    if ck_pct > 100
+      assign ck_pct = 100
+    endif
+  -%}
+  {{ 'ck.css' | asset_url | stylesheet_tag }}
+  <div class="ck-cartbar">
+    <p class="ck-cartbar__text">
+      {%- if ck_left > 0 -%}
+        You're <strong>{{ ck_left | money }}</strong> away from <strong>{{ ck_reward }}</strong>
+      {%- else -%}
+        🎉 You unlocked <strong>{{ ck_reward }}</strong>
+      {%- endif -%}
+    </p>
+    <div class="ck-cartbar__track"><div class="ck-cartbar__fill" style="width: {{ ck_pct }}%"></div></div>
+  </div>
+{%- endif -%}

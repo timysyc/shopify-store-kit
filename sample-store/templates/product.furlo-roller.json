@@ -1,0 +1,261 @@
+{
+  "sections": {
+    "brand": {
+      "type": "ck-brand",
+      "settings": {
+        "primary": "#0e4d4a",
+        "primary_text": "#ffffff",
+        "button": "#c93f17",
+        "button_text": "#ffffff",
+        "accent": "#ffc24b",
+        "accent_text": "#3a2600",
+        "accent_soft": "#fff1d6",
+        "background": "#fff9f2",
+        "surface": "#fbf0e4",
+        "card": "#ffffff",
+        "text": "#1f2a2a",
+        "muted": "#5b6766",
+        "border": "#eadfd2",
+        "star": "#f5b301",
+        "success": "#15803d",
+        "dark": "#0b2f2d",
+        "heading_font": "poppins_n7",
+        "heading_weight": "700",
+        "body_font": "nunito_sans_n4",
+        "radius": 20,
+        "button_shape": "pill",
+        "uppercase_buttons": true
+      }
+    },
+    "announce": {
+      "type": "ck-announcement",
+      "settings": { "bg": "#0e4d4a", "color": "#ffffff", "speed": 4 },
+      "blocks": {
+        "a1": { "type": "message", "settings": { "text": "<strong>Buy 2, get 1 FREE</strong> on every order" } },
+        "a2": { "type": "message", "settings": { "text": "Free US shipping over $35" } },
+        "a3": { "type": "message", "settings": { "text": "60-day money-back guarantee" } }
+      },
+      "block_order": ["a1", "a2", "a3"]
+    },
+    "main": {
+      "type": "ck-product",
+      "settings": {
+        "gallery_badge": "Reusable · no refills",
+        "gallery_badge_icon": "leaf",
+        "after_add": "drawer"
+      },
+      "blocks": {
+        "rating": { "type": "rating", "settings": { "count_text": "", "label": "Rated" } },
+        "title": { "type": "title", "settings": { "title": "Furlo Pet Hair Roller" } },
+        "hook": { "type": "subtitle", "settings": { "text": "<strong>Lifts pet hair off couches, beds and car seats</strong> in a few passes. No sticky sheets, ever." } },
+        "bullets": {
+          "type": "benefits",
+          "settings": {
+            "items": "Clears a whole couch|in a couple of minutes\nNothing to refill|empty it and reuse it for years\nGentle on fabric|no suction, heat or blades\nNo batteries or cord|works anywhere, any time",
+            "icon": "check"
+          }
+        },
+        "tiers": {
+          "type": "bundles",
+          "settings": {
+            "heading": "Bundle & save",
+            "default_tier": 2,
+            "price_display": "total",
+            "unit_label": "/each",
+            "save_text": "Save [percent]%",
+            "tier1_title": "Buy 1",
+            "tier1_note": "Try it on your worst couch",
+            "tier2_title": "Buy 2, Get 1 Free",
+            "tier2_qty": 3,
+            "tier2_free": 1,
+            "tier2_badge": "Most popular",
+            "tier2_note": "One for the couch, the car and the bed",
+            "tier2_perks": "Free US shipping\nOne in every room that gets furry",
+            "tier3_title": "Buy 3, Get 2 Free",
+            "tier3_qty": 5,
+            "tier3_free": 2,
+            "tier3_badge": "Best value",
+            "tier3_note": "Stock the house and gift two",
+            "tier3_gift": "Free Furlo Mini travel roller",
+            "tier3_perks": "Free US shipping\nFree Furlo Mini in the box"
+          }
+        },
+        "delivery": { "type": "delivery", "settings": { "min_days": 5, "max_days": 9 } },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": { "label": "Add to cart", "subtext": "60-day money-back guarantee", "sub_icon": "shield" }
+        },
+        "badges": {
+          "type": "guarantees",
+          "settings": { "items": "truck|Free shipping|Orders over $35\nreturn|60-day trial|Love it or refund\nchat|Real humans|Reply within 24h" }
+        },
+        "pay": { "type": "payment_icons", "settings": { "label": "Secure, encrypted checkout" } },
+        "quote": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "[EXAMPLE] Two huskies and my grey couch was more fur than fabric. Three passes and it looked new. Opening the lid is weirdly satisfying.",
+            "name": "Example customer",
+            "verified": false,
+            "is_placeholder": true
+          }
+        },
+        "acc_desc": { "type": "accordion", "settings": { "title": "What it does", "icon": "box", "use_description": true, "first": true } },
+        "acc_how": {
+          "type": "accordion",
+          "settings": {
+            "title": "How to use",
+            "icon": "sparkles",
+            "content": "<p>1. Roll back and forth in short strokes. 2. Open the lid. 3. Tip the fur into the bin. Rinse the head under the tap whenever it needs a refresh.</p>"
+          }
+        },
+        "acc_ship": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping & returns",
+            "icon": "truck",
+            "content": "<p>Ships from our US warehouse in 1–2 business days and arrives in 5–9 business days with tracking. Not in love? Email us within 60 days for a full refund.</p>"
+          }
+        },
+        "addon": {
+          "type": "upsell",
+          "settings": {
+            "heading": "Add one for the car",
+            "product": "furlo-mini",
+            "label": "Furlo Mini travel roller",
+            "subtext": "Glovebox size, same sealed chamber"
+          }
+        }
+      },
+      "block_order": ["rating", "title", "hook", "bullets", "tiers", "delivery", "buy", "badges", "pay", "quote", "acc_desc", "acc_how", "acc_ship", "addon"]
+    },
+    "ticker": {
+      "type": "ck-ticker",
+      "settings": { "scheme": "primary", "speed": 34 },
+      "blocks": {
+        "t1": { "type": "item", "settings": { "text": "No sticky refills", "icon": "leaf" } },
+        "t2": { "type": "item", "settings": { "text": "Couches, beds & car seats", "icon": "check" } },
+        "t3": { "type": "item", "settings": { "text": "60-day money-back guarantee", "icon": "shield" } },
+        "t4": { "type": "item", "settings": { "text": "Free US shipping over $35", "icon": "truck" } },
+        "t5": { "type": "item", "settings": { "text": "Made for dog & cat hair", "icon": "paw" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5"]
+    },
+    "why": {
+      "type": "ck-benefits",
+      "settings": {
+        "layout": "grid",
+        "columns": "4",
+        "eyebrow": "Why Furlo",
+        "heading": "Why pet parents <em>switch</em>",
+        "subheading": "Lint rollers run out. Vacuums are loud and heavy. Furlo just works.",
+        "scheme": "default"
+      },
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "paw", "title": "Gets the fur rollers miss", "text": "<p>Hundreds of angled bristles grip fur deep in the weave, not just the hair sitting on top.</p>" } },
+        "b2": { "type": "benefit", "settings": { "icon": "leaf", "title": "Zero waste, zero refills", "text": "<p>No sticky sheets to buy or throw away. Empty the chamber and go again.</p>" } },
+        "b3": { "type": "benefit", "settings": { "icon": "bolt", "title": "Fast enough for every day", "text": "<p>Keep it by the couch. A few passes before guests arrive and you're done.</p>" } },
+        "b4": { "type": "benefit", "settings": { "icon": "heart", "title": "Gentle on your stuff", "text": "<p>No suction, heat or blades. Safe on sofas, duvets, cat trees and car seats.</p>" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "problem": {
+      "type": "ck-image-text",
+      "settings": {
+        "image_side": "left",
+        "eyebrow": "The problem",
+        "heading": "Sticky rollers <em>can't keep up</em>",
+        "text": "<p>You tear off sheet after sheet and the couch still looks furry. Furlo's ratchet head works like a tiny comb: roll it forward and back, and the bristles sweep fur up into a sealed chamber.</p>",
+        "checks": "Pulls fur out of the fabric, not just off the top\nSealed chamber, so nothing falls back out\nRinse the head when it needs a refresh",
+        "button_label": "Get yours",
+        "button_link": "#buy",
+        "scheme": "surface"
+      }
+    },
+    "expect": {
+      "type": "ck-timeline",
+      "settings": {
+        "heading": "Your first <em>week</em> with Furlo",
+        "footnote": "Results depend on the fabric and how much your pet sheds.",
+        "scheme": "default"
+      },
+      "blocks": {
+        "s1": { "type": "step", "settings": { "icon": "sparkles", "label": "Minute 1", "title": "The first pass", "text": "<p>Roll it across one cushion, then open the lid and look. Seeing how much comes out is the fun part.</p>" } },
+        "s2": { "type": "step", "settings": { "icon": "heart", "label": "Day 1", "title": "The whole couch", "text": "<p>A full sofa takes a few minutes. Then the car seats and the dog bed.</p>" } },
+        "s3": { "type": "step", "settings": { "icon": "smile", "label": "Day 7", "title": "A new habit", "text": "<p>It lives next to the couch now. Quick passes stop fur from building up again.</p>" } }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    },
+    "versus": {
+      "type": "ck-comparison",
+      "settings": {
+        "heading": "Furlo vs. <em>the usual fix</em>",
+        "us_label": "Furlo",
+        "them_label": "Sticky rollers",
+        "scheme": "surface"
+      },
+      "blocks": {
+        "r1": { "type": "row", "settings": { "feature": "Reusable, nothing to throw away", "us_text": "yes", "them_text": "no" } },
+        "r2": { "type": "row", "settings": { "feature": "Pulls fur out of the weave", "us_text": "yes", "them_text": "Surface only" } },
+        "r3": { "type": "row", "settings": { "feature": "Big areas in one go", "us_text": "yes", "them_text": "Sheet after sheet" } },
+        "r4": { "type": "row", "settings": { "feature": "Ongoing cost", "us_text": "None", "them_text": "Refills, forever" } },
+        "r5": { "type": "row", "settings": { "feature": "60-day money-back guarantee", "us_text": "yes", "them_text": "no" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5"]
+    },
+    "reviews": {
+      "type": "ck-reviews",
+      "settings": {
+        "heading": "Pet parents are <em>talking</em>",
+        "count_text": "",
+        "layout": "masonry",
+        "columns": "3",
+        "scheme": "accent"
+      },
+      "blocks": {
+        "rv1": { "type": "review", "settings": { "rating": 5, "title": "My couch is grey again", "text": "[EXAMPLE] Collect a review that names the pet, the furniture and the before/after.", "name": "Example customer", "meta": "2 huskies · fabric sofa", "verified": false, "is_placeholder": true } },
+        "rv2": { "type": "review", "settings": { "rating": 5, "title": "Better than 10 lint rollers", "text": "[EXAMPLE] Collect a review comparing Furlo to the sticky rollers they used before.", "name": "Example customer", "meta": "Cat owner", "verified": false, "is_placeholder": true } },
+        "rv3": { "type": "review", "settings": { "rating": 5, "title": "The car seats", "text": "[EXAMPLE] Collect a review about the car, ideally with a photo of the full chamber.", "name": "Example customer", "meta": "Golden retriever", "verified": false, "is_placeholder": true } },
+        "rv4": { "type": "review", "settings": { "rating": 5, "title": "Bought the 3-pack", "text": "[EXAMPLE] Collect a review from a bundle buyer saying where each roller lives.", "name": "Example customer", "meta": "Bought: Buy 2, Get 1 Free", "verified": false, "is_placeholder": true } },
+        "rv5": { "type": "review", "settings": { "rating": 4, "title": "Works, takes practice", "text": "[EXAMPLE] A real 4-star review with a small gripe makes the wall more believable. Keep one.", "name": "Example customer", "meta": "Short-haired dog", "verified": false, "is_placeholder": true } },
+        "rv6": { "type": "review", "settings": { "rating": 5, "title": "Gift for my sister", "text": "[EXAMPLE] Collect a review from someone who bought it as a gift.", "name": "Example customer", "meta": "Bought: Buy 3, Get 2 Free", "verified": false, "is_placeholder": true } }
+      },
+      "block_order": ["rv1", "rv2", "rv3", "rv4", "rv5", "rv6"]
+    },
+    "guarantee": {
+      "type": "ck-guarantee",
+      "settings": {
+        "days": "60",
+        "seal_text": "Day money-back guarantee",
+        "heading": "Love it or <em>it's free</em>",
+        "text": "<p>Use Furlo for 60 days. If it doesn't beat your lint roller, email hello@furlo.co and we'll refund every cent.</p>",
+        "trust": "Free returns, Reply within 24h, Secure checkout",
+        "button_label": "Try Furlo risk-free",
+        "button_link": "#buy",
+        "scheme": "default"
+      }
+    },
+    "faq": {
+      "type": "ck-faq",
+      "settings": {
+        "heading": "Questions? <em>Answered.</em>",
+        "contact_text": "Still unsure? Email <a href=\"mailto:hello@furlo.co\">hello@furlo.co</a> and a real person replies within 24 hours.",
+        "scheme": "surface"
+      },
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Does it work on cat hair and short dog hair?", "answer": "<p>Yes. The angled bristles grab long, short and fine fur. Short, stiff hair takes a few more passes in both directions.</p>" } },
+        "q2": { "type": "question", "settings": { "question": "Will it damage my couch?", "answer": "<p>No. There is no suction, heat or blade. It's safe on fabric sofas, beds, rugs and car seats. Skip leather and silk.</p>" } },
+        "q3": { "type": "question", "settings": { "question": "How do I clean it?", "answer": "<p>Open the lid and tip the fur into the bin. Rinse the bristle head under the tap when it needs a refresh and let it dry.</p>" } },
+        "q4": { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>Orders leave our US warehouse in 1–2 business days and usually arrive in 5–9 business days. You get tracking by email.</p>" } },
+        "q5": { "type": "question", "settings": { "question": "What if it doesn't work for me?", "answer": "<p>Email us within 60 days of delivery and we refund you in full. No forms, no hassle.</p>" } },
+        "q6": { "type": "question", "settings": { "question": "Does it work on clothes?", "answer": "<p>It works on most fabrics, but it's built for furniture-sized areas. For clothes, lay them flat and use short strokes.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"]
+    },
+    "sticky": {
+      "type": "ck-sticky-atc",
+      "settings": { "label": "Add to cart", "action": "add" }
+    }
+  },
+  "order": ["brand", "announce", "main", "ticker", "why", "problem", "expect", "versus", "reviews", "guarantee", "faq", "sticky"]
+}

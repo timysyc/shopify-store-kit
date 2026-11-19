@@ -1,0 +1,36 @@
+{%- comment -%}
+  CK Sticky add-to-cart bar. Appears once the main Add to cart button scrolls out of view.
+  Needs a CK Product section on the same page.
+{%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- assign p = section.settings.product | default: product -%}
+{%- if p != blank -%}
+  <div class="ck-sticky{% unless section.settings.show_mobile %} ck-sticky--hide-mobile{% endunless %}{% unless section.settings.show_desktop %} ck-sticky--hide-desktop{% endunless %}" data-ck-sticky data-action="{{ section.settings.action }}">
+    <div class="ck-container ck-sticky__in">
+      {%- if p.featured_image != blank -%}{{ p.featured_image | image_url: width: 120 | image_tag: class: 'ck-sticky__img', loading: 'lazy', alt: '' }}{%- endif -%}
+      <div class="ck-sticky__meta">
+        <div class="ck-sticky__title">{{ p.title | escape }}</div>
+        <div class="ck-sticky__price">{% if p.metafields.reviews.rating.value != blank %}{% render 'ck-stars', rating: p.metafields.reviews.rating.value.rating, size: 13 %} {% endif %}<span data-ck-sticky-price>{{ p.selected_or_first_available_variant.price | money }}</span></div>
+      </div>
+      <button type="button" class="ck-btn" data-ck-sticky-btn>{{ section.settings.label }}</button>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "CK Sticky add to cart",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "Leave empty on product pages." },
+    { "type": "text", "id": "label", "label": "Button text", "default": "Add to cart" },
+    { "type": "select", "id": "action", "label": "Button action", "default": "add", "options": [
+      { "value": "add", "label": "Add selected bundle to cart" },
+      { "value": "scroll", "label": "Scroll up to the buy box" }
+    ] },
+    { "type": "checkbox", "id": "show_mobile", "label": "Show on mobile", "default": true },
+    { "type": "checkbox", "id": "show_desktop", "label": "Show on desktop", "default": true }
+  ],
+  "presets": [ { "name": "CK Sticky add to cart" } ]
+}
+{% endschema %}

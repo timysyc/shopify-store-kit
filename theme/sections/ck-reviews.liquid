@@ -1,0 +1,113 @@
+{%- comment -%}
+  CK Reviews — paste REAL reviews as blocks, or drop in a review-app block (Judge.me, Loox, Okendo).
+{%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- liquid
+  assign p = section.settings.product | default: product
+  assign r = section.settings.rating
+  assign rc = section.settings.count_text
+  assign show_sum = section.settings.show_summary
+  if p != blank and p.metafields.reviews.rating.value != blank
+    assign r = p.metafields.reviews.rating.value.rating | round: 1
+    assign rc = 'Based on ' | append: p.metafields.reviews.rating_count.value | append: ' reviews'
+  elsif rc == blank
+    assign show_sum = false
+  endif
+  assign list_id = 'ck-reviews-' | append: section.id
+  case section.settings.layout
+    when 'carousel'
+      assign list_class = 'ck-scroller'
+    when 'masonry'
+      assign list_class = 'ck-reviews__list ck-reviews__list--masonry'
+    else
+      assign list_class = 'ck-reviews__list ck-reviews__list--grid'
+  endcase
+-%}
+<section class="ck ck--{{ section.settings.scheme }} ck-reviews" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container">
+    <div class="ck-head ck-reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="ck-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="ck-h ck-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="ck-sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      {%- if show_sum -%}
+        <div class="ck-rsum"><span class="ck-rsum__score">{{ r }}</span>{% render 'ck-stars', rating: r, size: 20 %}<span class="ck-muted">{{ rc }}</span></div>
+      {%- endif -%}
+    </div>
+
+    <div id="{{ list_id }}" class="{{ list_class }} ck-cols-{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            <div style="grid-column: 1 / -1">{% render block %}</div>
+          {%- when 'review' -%}
+            {%- assign b = block.settings -%}
+            <article class="ck-review ck-reveal" {{ block.shopify_attributes }}>
+              {%- if b.image != blank -%}<div class="ck-review__img">{{ b.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: b.title | default: b.name }}</div>{%- endif -%}
+              {%- if b.is_placeholder -%}<span class="ck-review__tag">Placeholder: replace with a real review</span>{%- endif -%}
+              {% render 'ck-stars', rating: b.rating, size: 17 %}
+              {%- if b.title != blank -%}<h3 class="ck-review__title">{{ b.title }}</h3>{%- endif -%}
+              <p class="ck-review__text">{{ b.text }}</p>
+              <div class="ck-review__foot">
+                <span class="ck-review-card__avatar">{{ b.name | slice: 0 }}</span>
+                <div>
+                  <strong>{{ b.name }}</strong>{% if b.verified %} <span class="ck-verified">{% render 'ck-icon', name: 'check' %}Verified buyer</span>{% endif %}
+                  {%- if b.meta != blank -%}<div class="ck-review__meta">{{ b.meta }}</div>{%- endif -%}
+                </div>
+              </div>
+            </article>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.layout == 'carousel' -%}
+      <div class="ck-scroller-nav" data-ck-scroller-nav="{{ list_id }}">
+        <button type="button" data-dir="prev" aria-label="Previous reviews">&#8249;</button>
+        <button type="button" data-dir="next" aria-label="Next reviews">&#8250;</button>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Reviews",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Real customers, <em>real results</em>" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "checkbox", "id": "show_summary", "label": "Show rating summary", "default": true },
+    { "type": "product", "id": "product", "label": "Product (for review-app rating)", "info": "Leave empty on product pages." },
+    { "type": "range", "id": "rating", "label": "Fallback rating", "min": 3, "max": 5, "step": 0.1, "default": 4.8 },
+    { "type": "text", "id": "count_text", "label": "Fallback count text", "info": "Leave empty to hide the summary until your review app has real reviews." },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "masonry", "options": [
+      { "value": "masonry", "label": "Masonry wall" }, { "value": "grid", "label": "Grid" }, { "value": "carousel", "label": "Carousel" }
+    ] },
+    { "type": "select", "id": "columns", "label": "Columns on desktop", "default": "3", "options": [
+      { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }
+    ] },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "surface", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "review", "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Review text (real customer words)" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Customer" },
+        { "type": "text", "id": "meta", "label": "Detail line (e.g. Bought: 2-pack · Texas)" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true },
+        { "type": "image_picker", "id": "image", "label": "Customer photo" },
+        { "type": "checkbox", "id": "is_placeholder", "label": "Mark as placeholder", "default": false }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Reviews", "blocks": [ { "type": "review" }, { "type": "review" }, { "type": "review" } ] } ]
+}
+{% endschema %}

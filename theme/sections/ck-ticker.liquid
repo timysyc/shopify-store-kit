@@ -1,0 +1,52 @@
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<section class="ck ck--{{ section.settings.scheme }} ck-ticker" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px; --ck-speed: {{ section.settings.speed }}s;">
+  {%- if section.settings.label != blank -%}<div class="ck-ticker__label">{{ section.settings.label }}</div>{%- endif -%}
+  <div class="ck-ticker__viewport">
+    <div class="ck-ticker__track">
+      {%- for pass in (1..2) -%}
+        <div class="ck-ticker__group"{% if pass == 2 %} aria-hidden="true"{% endif %}>
+          {%- for rep in (1..2) -%}
+            {%- for block in section.blocks -%}
+              <span class="ck-ticker__item" {% if pass == 1 and rep == 1 %}{{ block.shopify_attributes }}{% endif %}>
+                {%- if block.settings.logo != blank -%}
+                  {{ block.settings.logo | image_url: height: 80 | image_tag: loading: 'lazy', alt: block.settings.text }}
+                {%- else -%}
+                  {% render 'ck-icon', name: block.settings.icon %}{{ block.settings.text }}
+                {%- endif -%}
+              </span>
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Ticker / Logos",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label above (e.g. As featured in)", "info": "Only show press logos you can prove." },
+    { "type": "range", "id": "speed", "label": "Loop duration", "min": 10, "max": 80, "step": 2, "unit": "s", "default": 30 },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "primary", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 14 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 14 }
+  ],
+  "blocks": [
+    {
+      "type": "item", "name": "Item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping over $50" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "check", "options": [
+          { "value": "none", "label": "None" }, { "value": "check", "label": "Check" }, { "value": "star", "label": "Star" }, { "value": "truck", "label": "Truck" }, { "value": "shield", "label": "Shield" }, { "value": "return", "label": "Return" }, { "value": "heart", "label": "Heart" }, { "value": "leaf", "label": "Leaf" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "paw", "label": "Paw" }, { "value": "bolt", "label": "Bolt" }, { "value": "award", "label": "Award" }, { "value": "users", "label": "Users" }
+        ] },
+        { "type": "image_picker", "id": "logo", "label": "Logo image (replaces text)" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Ticker / Logos", "blocks": [ { "type": "item" }, { "type": "item", "settings": { "text": "30-day guarantee", "icon": "shield" } }, { "type": "item", "settings": { "text": "Loved by thousands", "icon": "heart" } } ] } ]
+}
+{% endschema %}

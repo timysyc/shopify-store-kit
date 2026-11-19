@@ -1,0 +1,16 @@
+{%- comment -%}
+  Usage: {% render 'ck-stars', rating: 4.8, size: 18, style: 'boxed' %}
+{%- endcomment -%}
+{%- liquid
+  assign r = rating | default: 5 | times: 1.0
+  if r > 5
+    assign r = 5
+  endif
+  assign pct = r | times: 20
+  assign s = size | default: 18
+-%}
+{%- capture star -%}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>{%- endcapture -%}
+<span class="ck-stars{% if style == 'boxed' %} ck-stars--boxed{% endif %}" style="--ck-pct: {{ pct }}%; --ck-star-size: {{ s }}px;" role="img" aria-label="{{ r }} out of 5 stars">
+  <span class="ck-stars__base">{{ star }}{{ star }}{{ star }}{{ star }}{{ star }}</span>
+  <span class="ck-stars__fill">{{ star }}{{ star }}{{ star }}{{ star }}{{ star }}</span>
+</span>

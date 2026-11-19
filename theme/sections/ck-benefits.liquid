@@ -1,0 +1,121 @@
+{%- comment -%}
+  CK Benefits — four layouts from one section:
+  grid (icon cards), alternating (image/text rows), numbered (steps / reasons), listicle (pre-lander "7 reasons" page).
+{%- endcomment -%}
+{{ 'ck.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ck.js' | asset_url }}" defer="defer"></script>
+{%- assign L = section.settings.layout -%}
+<section class="ck ck--{{ section.settings.scheme }} ck-benefits" style="--ck-pt: {{ section.settings.padding_top }}px; --ck-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="ck-container{% if L == 'numbered' or L == 'listicle' %} ck-container--narrow{% endif %}">
+    {% render 'ck-head', s: section.settings %}
+
+    {%- case L -%}
+      {%- when 'alternating' -%}
+        <div class="ck-alt">
+          {%- for block in section.blocks -%}
+            <div class="ck-alt__row ck-reveal" {{ block.shopify_attributes }}>
+              <div class="ck-alt__media">
+                {%- if block.settings.image != blank -%}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '500, 800, 1200' }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'ck-placeholder' }}{%- endif -%}
+              </div>
+              <div>
+                <div class="ck-alt__num">{% if block.settings.label != blank %}{{ block.settings.label }}{% else %}{{ forloop.index | prepend: '0' }}{% endif %}</div>
+                <h3 class="ck-h ck-h2">{{ block.settings.title }}</h3>
+                <div>{{ block.settings.text }}</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+      {%- when 'numbered' -%}
+        <div class="ck-numbered">
+          {%- for block in section.blocks -%}
+            <div class="ck-numbered__item ck-reveal" {{ block.shopify_attributes }}>
+              <span class="ck-numbered__n">{% if block.settings.icon != 'none' %}{% render 'ck-icon', name: block.settings.icon %}{% else %}{{ forloop.index }}{% endif %}</span>
+              <div>
+                <h3 class="ck-h ck-h3">{{ block.settings.title }}</h3>
+                <div>{{ block.settings.text }}</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+      {%- when 'listicle' -%}
+        <div class="ck-listicle">
+          {%- for block in section.blocks -%}
+            <article class="ck-listicle__item ck-reveal" {{ block.shopify_attributes }}>
+              <div class="ck-listicle__media">
+                {%- if block.settings.image != blank -%}{{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 300px, 100vw', widths: '300, 600, 800' }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'ck-placeholder' }}{%- endif -%}
+              </div>
+              <div>
+                <h3 class="ck-h ck-h3">{{ forloop.index }}. {{ block.settings.title }}</h3>
+                <div>{{ block.settings.text }}</div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+      {%- else -%}
+        <div class="ck-grid ck-grid--{{ section.settings.columns }}">
+          {%- for block in section.blocks -%}
+            <div class="ck-card ck-reveal" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                <div class="ck-card__img">{{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, 100vw', widths: '400, 600, 800' }}</div>
+              {%- elsif block.settings.icon != 'none' -%}
+                <div class="ck-card__ico">{% render 'ck-icon', name: block.settings.icon %}</div>
+              {%- endif -%}
+              {%- if block.settings.label != blank -%}<div class="ck-eyebrow" style="margin-bottom:6px">{{ block.settings.label }}</div>{%- endif -%}
+              <h3 class="ck-h ck-h3">{{ block.settings.title }}</h3>
+              <div>{{ block.settings.text }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+    {%- endcase -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="ck-center"><a class="ck-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }} {% render 'ck-icon', name: 'arrow' %}</a></div>
+    {%- endif -%}
+    {%- if section.settings.footnote != blank -%}<p class="ck-footnote">{{ section.settings.footnote }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CK Benefits",
+  "settings": [
+    { "type": "select", "id": "layout", "label": "Layout", "default": "grid", "options": [
+      { "value": "grid", "label": "Icon cards" }, { "value": "alternating", "label": "Alternating image rows" }, { "value": "numbered", "label": "Numbered list" }, { "value": "listicle", "label": "Listicle (pre-lander)" }
+    ] },
+    { "type": "select", "id": "columns", "label": "Columns (cards)", "default": "3", "options": [
+      { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }
+    ] },
+    { "type": "text", "id": "eyebrow", "label": "Small label" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Why customers <em>love</em> it" },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "select", "id": "align", "label": "Heading alignment", "default": "center", "options": [ { "value": "center", "label": "Center" }, { "value": "left", "label": "Left" } ] },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "footnote", "label": "Footnote / disclaimer" },
+    { "type": "header", "content": "Section style" },
+    { "type": "select", "id": "scheme", "label": "Background", "default": "default", "options": [
+      { "value": "default", "label": "Page background" }, { "value": "surface", "label": "Alternate" }, { "value": "accent", "label": "Soft accent" }, { "value": "primary", "label": "Brand colour" }, { "value": "dark", "label": "Dark" }
+    ] },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "benefit", "name": "Benefit",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "check", "options": [
+          { "value": "none", "label": "None" }, { "value": "check", "label": "Check" }, { "value": "truck", "label": "Truck" }, { "value": "shield", "label": "Shield" }, { "value": "return", "label": "Return" }, { "value": "star", "label": "Star" }, { "value": "heart", "label": "Heart" }, { "value": "leaf", "label": "Leaf" }, { "value": "lock", "label": "Lock" }, { "value": "clock", "label": "Clock" }, { "value": "gift", "label": "Gift" }, { "value": "award", "label": "Award" }, { "value": "sparkles", "label": "Sparkles" }, { "value": "bolt", "label": "Bolt" }, { "value": "moon", "label": "Moon" }, { "value": "drop", "label": "Drop" }, { "value": "paw", "label": "Paw" }, { "value": "chat", "label": "Chat" }, { "value": "box", "label": "Box" }, { "value": "percent", "label": "Percent" }, { "value": "thumb", "label": "Thumbs up" }, { "value": "smile", "label": "Smile" }, { "value": "sun", "label": "Sun" }, { "value": "flask", "label": "Flask" }, { "value": "globe", "label": "Globe" }, { "value": "users", "label": "Users" }
+        ] },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Small label" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Benefit title" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Explain the benefit in one or two sentences.</p>" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "CK Benefits", "blocks": [ { "type": "benefit" }, { "type": "benefit", "settings": { "icon": "heart" } }, { "type": "benefit", "settings": { "icon": "shield" } } ] } ]
+}
+{% endschema %}
