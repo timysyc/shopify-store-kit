@@ -93,10 +93,6 @@ node tools/validate.mjs my-store/*.json
 3. **Free-shipping bar:** set `ck_threshold` (in cents) and `ck_reward` at the top of `snippets/ck-cart-progress.liquid`.
 4. Replace every review marked **Placeholder** with a real one, or delete it.
 
-## What was left out on purpose
-
-"23 people are viewing this" counters, timers that reset on every visit, and invented reviews. Meta bans ad accounts for them. Shopify Payments holds payouts over them. The FTC's fake-review rule (in force since October 2024) allows fines for each fake review. Every urgency element in this kit uses real data: real inventory, a real sale end date, real delivery dates.
-
 ## Editing the kit
 
 After you change any section's `{% schema %}`, regenerate the prompt's section reference so the AI knows about it:
